@@ -17,6 +17,7 @@
 					<span><?php echo esc_html__( 'Cameroon Travel Guide', 'limbenet' ); ?></span>
 				</a>
 				<p><?php echo esc_html__( 'An independent tourism guide for planning Cameroon trips with verified information, responsible safety notices, and official links where available.', 'limbenet' ); ?></p>
+				<?php echo do_shortcode( '[limbenet_social_links context="footer"]' ); ?>
 				<?php echo do_shortcode( '[limbenet_language_switcher context="footer"]' ); ?>
 			</div>
 

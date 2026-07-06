@@ -63,14 +63,34 @@ class LimbeNet_Core_Settings {
 	 * @return array
 	 */
 	public static function defaults() {
+		return array_merge(
+			array(
+				'default_whatsapp'      => '',
+				'default_contact_email' => get_option( 'admin_email' ),
+				'google_maps_api_key'   => '',
+				'enable_partner_ctas'   => '1',
+				'currency'              => 'XAF',
+				'affiliate_disclosure'  => __( 'Some links may be partner or affiliate links. Limbe.Net may earn a commission at no extra cost to you.', 'limbenet-core' ),
+				'safety_disclaimer'     => __( 'Travel conditions can change. Check official advisories and local guidance before planning or booking.', 'limbenet-core' ),
+			),
+			array_fill_keys( array_keys( self::social_fields() ), '' )
+		);
+	}
+
+	/**
+	 * Social media settings fields.
+	 *
+	 * @return array
+	 */
+	public static function social_fields() {
 		return array(
-			'default_whatsapp'        => '',
-			'default_contact_email'   => get_option( 'admin_email' ),
-			'google_maps_api_key'     => '',
-			'enable_partner_ctas'     => '1',
-			'currency'                => 'XAF',
-			'affiliate_disclosure'    => __( 'Some links may be partner or affiliate links. Limbe.Net may earn a commission at no extra cost to you.', 'limbenet-core' ),
-			'safety_disclaimer'       => __( 'Travel conditions can change. Check official advisories and local guidance before planning or booking.', 'limbenet-core' ),
+			'social_facebook_url'  => __( 'Facebook URL', 'limbenet-core' ),
+			'social_instagram_url' => __( 'Instagram URL', 'limbenet-core' ),
+			'social_x_url'         => __( 'X URL', 'limbenet-core' ),
+			'social_tiktok_url'    => __( 'TikTok URL', 'limbenet-core' ),
+			'social_youtube_url'   => __( 'YouTube URL', 'limbenet-core' ),
+			'social_linkedin_url'  => __( 'LinkedIn URL', 'limbenet-core' ),
+			'social_whatsapp_url'  => __( 'WhatsApp Channel URL', 'limbenet-core' ),
 		);
 	}
 
@@ -93,7 +113,7 @@ class LimbeNet_Core_Settings {
 	public function sanitize_settings( $input ) {
 		$input = is_array( $input ) ? $input : array();
 
-		return array(
+		$settings = array(
 			'default_whatsapp'      => isset( $input['default_whatsapp'] ) ? sanitize_text_field( $input['default_whatsapp'] ) : '',
 			'default_contact_email' => isset( $input['default_contact_email'] ) ? sanitize_email( $input['default_contact_email'] ) : '',
 			'google_maps_api_key'   => isset( $input['google_maps_api_key'] ) ? sanitize_text_field( $input['google_maps_api_key'] ) : '',
@@ -102,6 +122,12 @@ class LimbeNet_Core_Settings {
 			'affiliate_disclosure'  => isset( $input['affiliate_disclosure'] ) ? sanitize_textarea_field( $input['affiliate_disclosure'] ) : '',
 			'safety_disclaimer'     => isset( $input['safety_disclaimer'] ) ? sanitize_textarea_field( $input['safety_disclaimer'] ) : '',
 		);
+
+		foreach ( array_keys( self::social_fields() ) as $key ) {
+			$settings[ $key ] = isset( $input[ $key ] ) ? esc_url_raw( $input[ $key ] ) : '';
+		}
+
+		return $settings;
 	}
 
 	/**
@@ -146,6 +172,18 @@ class LimbeNet_Core_Settings {
 					<tr>
 						<th scope="row"><label for="limbenet_google_maps_api_key"><?php esc_html_e( 'Google Maps API Key Placeholder', 'limbenet-core' ); ?></label></th>
 						<td><input class="regular-text" id="limbenet_google_maps_api_key" name="<?php echo esc_attr( self::OPTION ); ?>[google_maps_api_key]" type="text" value="<?php echo esc_attr( $settings['google_maps_api_key'] ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Social Media Links', 'limbenet-core' ); ?></th>
+						<td>
+							<p class="description"><?php esc_html_e( 'These links power the footer and contact-page social icon placeholders across all Limbe.Net themes.', 'limbenet-core' ); ?></p>
+							<?php foreach ( self::social_fields() as $key => $label ) : ?>
+								<p>
+									<label for="limbenet_<?php echo esc_attr( $key ); ?>"><strong><?php echo esc_html( $label ); ?></strong></label><br>
+									<input class="regular-text" id="limbenet_<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( self::OPTION ); ?>[<?php echo esc_attr( $key ); ?>]" type="url" value="<?php echo esc_attr( $settings[ $key ] ); ?>" placeholder="https://">
+								</p>
+							<?php endforeach; ?>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Partner Monetization CTAs', 'limbenet-core' ); ?></th>

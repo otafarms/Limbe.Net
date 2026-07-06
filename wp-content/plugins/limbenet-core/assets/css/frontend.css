@@ -114,6 +114,100 @@
 	white-space: nowrap;
 }
 
+.lnet-social-section {
+	background: #ffffff;
+	border: 1px solid rgba(32, 33, 36, 0.14);
+	border-radius: 8px;
+	display: grid;
+	gap: 0.9rem;
+	margin-top: 1.2rem;
+	padding: 1.25rem;
+}
+
+.lnet-social-heading {
+	display: grid;
+	gap: 0.25rem;
+}
+
+.lnet-social-heading .lnet-kicker {
+	color: #176b4d;
+	margin: 0;
+}
+
+.lnet-social-heading h2 {
+	color: #073b5a;
+	font-size: 1.35rem;
+	line-height: 1.2;
+	margin: 0;
+}
+
+.lnet-social-links {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+}
+
+.lnet-social-links.is-footer {
+	margin-top: 0.9rem;
+}
+
+.lnet-social-link {
+	align-items: center;
+	background: #ffffff;
+	border: 1px solid rgba(7, 59, 90, 0.18);
+	border-radius: 999px;
+	color: #073b5a;
+	display: inline-flex;
+	flex: 0 0 auto;
+	height: 2.35rem;
+	justify-content: center;
+	text-decoration: none;
+	transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+	width: 2.35rem;
+}
+
+.lnet-social-mark {
+	font-size: 0.74rem;
+	font-weight: 900;
+	line-height: 1;
+}
+
+a.lnet-social-link:focus-visible,
+a.lnet-social-link:hover {
+	background: #073b5a;
+	border-color: #073b5a;
+	color: #ffffff;
+	outline: 2px solid transparent;
+	transform: translateY(-1px);
+}
+
+.lnet-social-link.is-placeholder {
+	background: #f8f4ea;
+	border-style: dashed;
+	color: rgba(32, 33, 36, 0.52);
+	cursor: default;
+}
+
+.lnet-site-footer .lnet-social-link {
+	background: rgba(255, 255, 255, 0.11);
+	border-color: rgba(255, 255, 255, 0.28);
+	color: #ffffff;
+}
+
+.lnet-site-footer a.lnet-social-link:focus-visible,
+.lnet-site-footer a.lnet-social-link:hover {
+	background: #ffffff;
+	border-color: #ffffff;
+	color: #073b5a;
+}
+
+.lnet-site-footer .lnet-social-link.is-placeholder {
+	background: rgba(255, 255, 255, 0.06);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: rgba(255, 255, 255, 0.62);
+}
+
 .lnet-filter-grid,
 .lnet-form-grid {
 	display: grid;
@@ -595,6 +689,7 @@
 	.lnet-newsletter,
 	.lnet-partner-cta,
 	.lnet-form-wrap,
+	.lnet-social-section,
 	.lnet-quick-facts,
 	.lnet-detail-section,
 	.lnet-safety-box,

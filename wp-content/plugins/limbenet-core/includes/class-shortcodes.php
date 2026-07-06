@@ -26,6 +26,7 @@ class LimbeNet_Core_Shortcodes {
 		add_shortcode( 'limbenet_travel_info', array( $this, 'travel_info' ) );
 		add_shortcode( 'limbenet_partner_cta', array( $this, 'partner_cta' ) );
 		add_shortcode( 'limbenet_newsletter', array( $this, 'newsletter' ) );
+		add_shortcode( 'limbenet_social_links', array( $this, 'social_links' ) );
 		add_shortcode( 'limbenet_attraction_details', array( $this, 'attraction_details' ) );
 		add_shortcode( 'limbenet_destination_details', array( $this, 'destination_details' ) );
 		add_shortcode( 'limbenet_booking_form', array( $this, 'booking_form' ) );
@@ -125,6 +126,59 @@ class LimbeNet_Core_Shortcodes {
 			}
 		}
 		$output .= '</nav>';
+
+		return $output;
+	}
+
+	/**
+	 * Render configurable social media links with placeholders.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return string
+	 */
+	public function social_links( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'context' => 'footer',
+			),
+			$atts,
+			'limbenet_social_links'
+		);
+
+		$context = sanitize_key( $atts['context'] );
+		if ( ! in_array( $context, array( 'footer', 'contact' ), true ) ) {
+			$context = 'footer';
+		}
+
+		$settings  = LimbeNet_Core_Settings::get_settings();
+		$output    = '';
+		$platforms = $this->social_platforms();
+
+		if ( 'contact' === $context ) {
+			$output .= '<section class="lnet-social-section is-contact">';
+			$output .= '<div class="lnet-social-heading"><p class="lnet-kicker">' . esc_html__( 'Stay connected', 'limbenet-core' ) . '</p>';
+			$output .= '<h2>' . esc_html__( 'Connect with Limbe.Net', 'limbenet-core' ) . '</h2></div>';
+		}
+
+		$output .= '<nav class="lnet-social-links is-' . esc_attr( $context ) . '" aria-label="' . esc_attr__( 'Social media links', 'limbenet-core' ) . '">';
+
+		foreach ( $platforms as $platform ) {
+			$url        = isset( $settings[ $platform['setting'] ] ) ? trim( $settings[ $platform['setting'] ] ) : '';
+			$mark       = '<span class="lnet-social-mark" aria-hidden="true">' . esc_html( $platform['mark'] ) . '</span>';
+			$class_name = 'lnet-social-link is-' . $platform['slug'];
+
+			if ( $url ) {
+				$output .= '<a class="' . esc_attr( $class_name ) . '" href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '">' . $mark . '<span class="screen-reader-text">' . esc_html( $platform['label'] ) . '</span></a>';
+			} else {
+				$output .= '<span class="' . esc_attr( $class_name . ' is-placeholder' ) . '" title="' . esc_attr( sprintf( __( '%s link pending', 'limbenet-core' ), $platform['label'] ) ) . '">' . $mark . '<span class="screen-reader-text">' . esc_html( sprintf( __( '%s link pending', 'limbenet-core' ), $platform['label'] ) ) . '</span></span>';
+			}
+		}
+
+		$output .= '</nav>';
+
+		if ( 'contact' === $context ) {
+			$output .= '</section>';
+		}
 
 		return $output;
 	}
@@ -607,6 +661,58 @@ class LimbeNet_Core_Shortcodes {
 		$html = preg_replace( '/>\s+</', '><', $html );
 
 		return trim( (string) $html );
+	}
+
+	/**
+	 * Social platform metadata used by the social links shortcode.
+	 *
+	 * @return array
+	 */
+	private function social_platforms() {
+		return array(
+			array(
+				'slug'    => 'facebook',
+				'setting' => 'social_facebook_url',
+				'label'   => __( 'Facebook', 'limbenet-core' ),
+				'mark'    => 'f',
+			),
+			array(
+				'slug'    => 'instagram',
+				'setting' => 'social_instagram_url',
+				'label'   => __( 'Instagram', 'limbenet-core' ),
+				'mark'    => 'IG',
+			),
+			array(
+				'slug'    => 'x',
+				'setting' => 'social_x_url',
+				'label'   => __( 'X', 'limbenet-core' ),
+				'mark'    => 'X',
+			),
+			array(
+				'slug'    => 'tiktok',
+				'setting' => 'social_tiktok_url',
+				'label'   => __( 'TikTok', 'limbenet-core' ),
+				'mark'    => 'TT',
+			),
+			array(
+				'slug'    => 'youtube',
+				'setting' => 'social_youtube_url',
+				'label'   => __( 'YouTube', 'limbenet-core' ),
+				'mark'    => 'YT',
+			),
+			array(
+				'slug'    => 'linkedin',
+				'setting' => 'social_linkedin_url',
+				'label'   => __( 'LinkedIn', 'limbenet-core' ),
+				'mark'    => 'in',
+			),
+			array(
+				'slug'    => 'whatsapp',
+				'setting' => 'social_whatsapp_url',
+				'label'   => __( 'WhatsApp', 'limbenet-core' ),
+				'mark'    => 'WA',
+			),
+		);
 	}
 
 	/**
