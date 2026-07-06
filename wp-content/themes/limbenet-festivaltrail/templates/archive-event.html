@@ -1,0 +1,28 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+<!-- wp:group {"tagName":"main","className":"lnet-main"} -->
+<main class="wp-block-group lnet-main">
+	<!-- wp:group {"className":"lnet-wrap"} -->
+	<div class="wp-block-group lnet-wrap">
+		<!-- wp:query-title {"type":"archive"} /-->
+		<!-- wp:shortcode -->
+		[limbenet_tourism_search post_type="event" button_label="Filter events"]
+		<!-- /wp:shortcode -->
+		<!-- wp:query {"queryId":8,"query":{"perPage":12,"postType":"event","inherit":true}} -->
+		<div class="wp-block-query">
+			<!-- wp:post-template -->
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2"} /-->
+				<!-- wp:post-title {"isLink":true} /-->
+				<!-- wp:post-excerpt {"moreText":"View event"} /-->
+			<!-- /wp:post-template -->
+			<!-- wp:query-pagination -->
+				<!-- wp:query-pagination-previous /-->
+				<!-- wp:query-pagination-numbers /-->
+				<!-- wp:query-pagination-next /-->
+			<!-- /wp:query-pagination -->
+		</div>
+		<!-- /wp:query -->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->

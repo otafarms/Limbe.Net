@@ -112,3 +112,13 @@ Every attraction and destination includes a visible safety/advisory box with one
 - [Admin usage guide](docs/admin-usage-guide.md)
 - [Translation instructions](docs/translation-instructions.md)
 - [SEO launch checklist](docs/seo-launch-checklist.md)
+- [Theme variant guide](docs/theme-variant-guide.md)
+
+## Optional Theme Variants
+
+Two additional standalone theme ZIPs are available in `dist/`:
+
+- `limbenet-coastwave.zip`: bright coastal teal/coral visual direction.
+- `limbenet-festivaltrail.zip`: colorful culture/highland visual direction.
+
+Upload either ZIP from `Appearance > Themes > Add New > Upload Theme`.
