@@ -150,9 +150,23 @@ class LimbeNet_Core_Shortcodes {
 			$context = 'footer';
 		}
 
-		$settings  = LimbeNet_Core_Settings::get_settings();
-		$output    = '';
-		$platforms = $this->social_platforms();
+		$settings = LimbeNet_Core_Settings::get_settings();
+		$output   = '';
+		$links    = array();
+
+		foreach ( $this->social_platforms() as $platform ) {
+			$url = isset( $settings[ $platform['setting'] ] ) ? LimbeNet_Core_Settings::sanitize_social_url( $settings[ $platform['setting'] ], $platform['setting'] ) : '';
+			if ( ! $url ) {
+				continue;
+			}
+
+			$platform['url'] = $url;
+			$links[]         = $platform;
+		}
+
+		if ( ! $links ) {
+			return '';
+		}
 
 		if ( 'contact' === $context ) {
 			$output .= '<section class="lnet-social-section is-contact">';
@@ -162,16 +176,10 @@ class LimbeNet_Core_Shortcodes {
 
 		$output .= '<nav class="lnet-social-links is-' . esc_attr( $context ) . '" aria-label="' . esc_attr__( 'Social media links', 'limbenet-core' ) . '">';
 
-		foreach ( $platforms as $platform ) {
-			$url        = isset( $settings[ $platform['setting'] ] ) ? trim( $settings[ $platform['setting'] ] ) : '';
+		foreach ( $links as $platform ) {
 			$mark       = '<span class="lnet-social-mark" aria-hidden="true">' . esc_html( $platform['mark'] ) . '</span>';
 			$class_name = 'lnet-social-link is-' . $platform['slug'];
-
-			if ( $url ) {
-				$output .= '<a class="' . esc_attr( $class_name ) . '" href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '">' . $mark . '<span class="screen-reader-text">' . esc_html( $platform['label'] ) . '</span></a>';
-			} else {
-				$output .= '<span class="' . esc_attr( $class_name . ' is-placeholder' ) . '" title="' . esc_attr( sprintf( __( '%s link pending', 'limbenet-core' ), $platform['label'] ) ) . '">' . $mark . '<span class="screen-reader-text">' . esc_html( sprintf( __( '%s link pending', 'limbenet-core' ), $platform['label'] ) ) . '</span></span>';
-			}
+			$output    .= '<a class="' . esc_attr( $class_name ) . '" href="' . esc_url( $platform['url'] ) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '">' . $mark . '<span class="screen-reader-text">' . esc_html( $platform['label'] ) . '</span></a>';
 		}
 
 		$output .= '</nav>';

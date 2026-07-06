@@ -95,6 +95,31 @@ class LimbeNet_Core_Settings {
 	}
 
 	/**
+	 * Normalize and sanitize social media URLs.
+	 *
+	 * @param string $url Raw URL.
+	 * @param string $key Setting key.
+	 * @return string
+	 */
+	public static function sanitize_social_url( $url, $key = '' ) {
+		$url = trim( (string) $url );
+		if ( '' === $url ) {
+			return '';
+		}
+
+		if ( 'social_whatsapp_url' === $key && preg_match( '/^\+?[\d\s().-]+$/', $url ) ) {
+			$digits = preg_replace( '/\D+/', '', $url );
+			return $digits ? esc_url_raw( 'https://wa.me/' . $digits ) : '';
+		}
+
+		if ( ! preg_match( '#^[a-z][a-z0-9+.-]*://#i', $url ) && 0 !== strpos( $url, '//' ) ) {
+			$url = 'https://' . ltrim( $url, '/' );
+		}
+
+		return esc_url_raw( $url );
+	}
+
+	/**
 	 * Get merged settings.
 	 *
 	 * @return array
@@ -124,7 +149,7 @@ class LimbeNet_Core_Settings {
 		);
 
 		foreach ( array_keys( self::social_fields() ) as $key ) {
-			$settings[ $key ] = isset( $input[ $key ] ) ? esc_url_raw( $input[ $key ] ) : '';
+			$settings[ $key ] = isset( $input[ $key ] ) ? self::sanitize_social_url( $input[ $key ], $key ) : '';
 		}
 
 		return $settings;
@@ -176,7 +201,7 @@ class LimbeNet_Core_Settings {
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Social Media Links', 'limbenet-core' ); ?></th>
 						<td>
-							<p class="description"><?php esc_html_e( 'These links power the footer and contact-page social icon placeholders across all Limbe.Net themes.', 'limbenet-core' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Configured links appear in the footer and contact pages. Empty social sites stay hidden from the public site.', 'limbenet-core' ); ?></p>
 							<?php foreach ( self::social_fields() as $key => $label ) : ?>
 								<p>
 									<label for="limbenet_<?php echo esc_attr( $key ); ?>"><strong><?php echo esc_html( $label ); ?></strong></label><br>

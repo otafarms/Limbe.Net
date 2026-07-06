@@ -3,7 +3,7 @@
  * Plugin Name: Limbe.Net Core
  * Plugin URI: https://limbe.net/
  * Description: Tourism directory, booking leads, partner listings, seed content, and frontend components for Limbe.Net.
- * Version: 0.1.6
+ * Version: 0.1.7
  * Requires at least: 6.4
  * Requires PHP: 7.4
  * Author: Limbe.Net
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LIMBENET_CORE_VERSION', '0.1.6' );
+define( 'LIMBENET_CORE_VERSION', '0.1.7' );
 define( 'LIMBENET_CORE_FILE', __FILE__ );
 define( 'LIMBENET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LIMBENET_CORE_URL', plugin_dir_url( __FILE__ ) );
