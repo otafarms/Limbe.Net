@@ -151,52 +151,40 @@ class LimbeNet_Core_Shortcodes {
 		$compact    = filter_var( $atts['compact'], FILTER_VALIDATE_BOOLEAN );
 		$action     = $this->current_url_without_filters();
 		$query      = $this->query_arg( 'lnet_query' );
+		$output     = '<div class="lnet-search-panel' . ( $compact ? ' is-compact' : '' ) . '">';
+		$output    .= '<form class="lnet-search-form" action="' . esc_url( $action ) . '" method="get" role="search">';
+		$output    .= '<input type="hidden" name="lnet_post_types" value="' . esc_attr( implode( ',', $post_types ) ) . '">';
+		$output    .= '<div class="lnet-search-primary">';
+		$output    .= '<label class="screen-reader-text" for="lnet_query">' . esc_html( $atts['placeholder'] ) . '</label>';
+		$output    .= '<input id="lnet_query" name="lnet_query" type="search" value="' . esc_attr( $query ) . '" placeholder="' . esc_attr( $atts['placeholder'] ) . '">';
+		$output    .= '<button type="submit">' . esc_html( $atts['button_label'] ) . '</button>';
+		$output    .= '</div>';
 
-		ob_start();
-		?>
-		<div class="lnet-search-panel<?php echo $compact ? ' is-compact' : ''; ?>">
-			<form class="lnet-search-form" action="<?php echo esc_url( $action ); ?>" method="get" role="search">
-				<input type="hidden" name="lnet_post_types" value="<?php echo esc_attr( implode( ',', $post_types ) ); ?>">
-				<div class="lnet-search-primary">
-					<label class="screen-reader-text" for="lnet_query"><?php echo esc_html( $atts['placeholder'] ); ?></label>
-					<input id="lnet_query" name="lnet_query" type="search" value="<?php echo esc_attr( $query ); ?>" placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>">
-					<button type="submit"><?php echo esc_html( $atts['button_label'] ); ?></button>
-				</div>
+		if ( ! $compact ) {
+			$family_friendly = $this->query_arg( 'lnet_family_friendly' );
+			$ticket_required = $this->query_arg( 'lnet_ticket_required' );
 
-				<?php if ( ! $compact ) : ?>
-					<div class="lnet-filter-grid">
-						<?php
-						echo $this->taxonomy_select( 'region', 'lnet_region', __( 'Region', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo $this->taxonomy_select( 'city', 'lnet_city', __( 'City', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo $this->taxonomy_select( 'attraction_type', 'lnet_attraction_type', __( 'Attraction type', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo $this->taxonomy_select( 'travel_style', 'lnet_travel_style', __( 'Travel style', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo $this->taxonomy_select( 'budget_range', 'lnet_budget', __( 'Budget', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo $this->taxonomy_select( 'safety_status', 'lnet_safety_status', __( 'Safety status', 'limbenet-core' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						?>
-						<label>
-							<span><?php esc_html_e( 'Family friendly', 'limbenet-core' ); ?></span>
-							<select name="lnet_family_friendly">
-								<option value=""><?php esc_html_e( 'Any', 'limbenet-core' ); ?></option>
-								<option value="yes" <?php selected( $this->query_arg( 'lnet_family_friendly' ), 'yes' ); ?>><?php esc_html_e( 'Yes', 'limbenet-core' ); ?></option>
-								<option value="no" <?php selected( $this->query_arg( 'lnet_family_friendly' ), 'no' ); ?>><?php esc_html_e( 'No', 'limbenet-core' ); ?></option>
-							</select>
-						</label>
-						<label>
-							<span><?php esc_html_e( 'Ticket required', 'limbenet-core' ); ?></span>
-							<select name="lnet_ticket_required">
-								<option value=""><?php esc_html_e( 'Any', 'limbenet-core' ); ?></option>
-								<option value="yes" <?php selected( $this->query_arg( 'lnet_ticket_required' ), 'yes' ); ?>><?php esc_html_e( 'Yes', 'limbenet-core' ); ?></option>
-								<option value="no" <?php selected( $this->query_arg( 'lnet_ticket_required' ), 'no' ); ?>><?php esc_html_e( 'No', 'limbenet-core' ); ?></option>
-								<option value="unknown" <?php selected( $this->query_arg( 'lnet_ticket_required' ), 'unknown' ); ?>><?php esc_html_e( 'Unknown', 'limbenet-core' ); ?></option>
-							</select>
-						</label>
-					</div>
-				<?php endif; ?>
-			</form>
-		</div>
-		<?php
+			$output .= '<div class="lnet-filter-grid">';
+			$output .= $this->taxonomy_select( 'region', 'lnet_region', __( 'Region', 'limbenet-core' ) );
+			$output .= $this->taxonomy_select( 'city', 'lnet_city', __( 'City', 'limbenet-core' ) );
+			$output .= $this->taxonomy_select( 'attraction_type', 'lnet_attraction_type', __( 'Attraction type', 'limbenet-core' ) );
+			$output .= $this->taxonomy_select( 'travel_style', 'lnet_travel_style', __( 'Travel style', 'limbenet-core' ) );
+			$output .= $this->taxonomy_select( 'budget_range', 'lnet_budget', __( 'Budget', 'limbenet-core' ) );
+			$output .= $this->taxonomy_select( 'safety_status', 'lnet_safety_status', __( 'Safety status', 'limbenet-core' ) );
+			$output .= '<label><span>' . esc_html__( 'Family friendly', 'limbenet-core' ) . '</span><select name="lnet_family_friendly">';
+			$output .= '<option value="">' . esc_html__( 'Any', 'limbenet-core' ) . '</option>';
+			$output .= '<option value="yes" ' . selected( $family_friendly, 'yes', false ) . '>' . esc_html__( 'Yes', 'limbenet-core' ) . '</option>';
+			$output .= '<option value="no" ' . selected( $family_friendly, 'no', false ) . '>' . esc_html__( 'No', 'limbenet-core' ) . '</option>';
+			$output .= '</select></label>';
+			$output .= '<label><span>' . esc_html__( 'Ticket required', 'limbenet-core' ) . '</span><select name="lnet_ticket_required">';
+			$output .= '<option value="">' . esc_html__( 'Any', 'limbenet-core' ) . '</option>';
+			$output .= '<option value="yes" ' . selected( $ticket_required, 'yes', false ) . '>' . esc_html__( 'Yes', 'limbenet-core' ) . '</option>';
+			$output .= '<option value="no" ' . selected( $ticket_required, 'no', false ) . '>' . esc_html__( 'No', 'limbenet-core' ) . '</option>';
+			$output .= '<option value="unknown" ' . selected( $ticket_required, 'unknown', false ) . '>' . esc_html__( 'Unknown', 'limbenet-core' ) . '</option>';
+			$output .= '</select></label></div>';
+		}
 
-		$output = ob_get_clean();
+		$output .= '</form></div>';
 
 		if ( ! is_post_type_archive() && ! empty( $_GET['lnet_query'] ) ) {
 			$output .= $this->render_search_results( $post_types );

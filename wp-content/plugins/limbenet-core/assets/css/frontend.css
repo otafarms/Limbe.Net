@@ -125,6 +125,10 @@
 	grid-template-rows: repeat(2, auto);
 }
 
+.lnet-filter-grid br {
+	display: none;
+}
+
 @media (min-width: 761px) {
 	.lnet-filter-grid > label:nth-child(7) {
 		grid-column: 3;
