@@ -196,11 +196,13 @@ class LimbeNet_Core_Shortcodes {
 		</div>
 		<?php
 
+		$output = ob_get_clean();
+
 		if ( ! is_post_type_archive() && ! empty( $_GET['lnet_query'] ) ) {
-			echo $this->render_search_results( $post_types ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$output .= $this->render_search_results( $post_types );
 		}
 
-		return ob_get_clean();
+		return $this->compact_html( $output );
 	}
 
 	/**
@@ -604,6 +606,19 @@ class LimbeNet_Core_Shortcodes {
 
 		$query = new WP_Query( $args );
 		return '<div class="lnet-search-results">' . $this->render_query_grid( $query, __( 'No tourism results found. Try a broader destination, style, or safety filter.', 'limbenet-core' ) ) . '</div>';
+	}
+
+	/**
+	 * Remove shortcode template whitespace that WordPress can convert into line breaks.
+	 *
+	 * @param string $html Markup.
+	 * @return string
+	 */
+	private function compact_html( $html ) {
+		$html = preg_replace( '/<br\s*\/?>/i', '', $html );
+		$html = preg_replace( '/>\s+</', '><', $html );
+
+		return trim( (string) $html );
 	}
 
 	/**
