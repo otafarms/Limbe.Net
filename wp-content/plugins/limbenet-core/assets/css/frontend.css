@@ -15,7 +15,7 @@
 	background: #ffffff;
 	border: 0;
 	box-shadow: none;
-	padding: 3rem 2.5rem 3.5rem;
+	padding: 0.5rem 2.5rem 0.5rem;
 }
 
 .lnet-search-panel.is-compact {
@@ -123,6 +123,18 @@
 
 .lnet-filter-grid {
 	grid-template-rows: repeat(2, auto);
+}
+
+@media (min-width: 761px) {
+	.lnet-filter-grid > label:nth-child(7) {
+		grid-column: 3;
+		grid-row: 2;
+	}
+
+	.lnet-filter-grid > label:nth-child(8) {
+		grid-column: 4;
+		grid-row: 2;
+	}
 }
 
 .lnet-filter-grid label,
