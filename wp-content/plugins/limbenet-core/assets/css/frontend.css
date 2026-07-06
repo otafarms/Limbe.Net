@@ -12,10 +12,10 @@
 }
 
 .lnet-search-panel:not(.is-compact) {
-	background: transparent;
+	background: #ffffff;
 	border: 0;
 	box-shadow: none;
-	padding: 0;
+	padding: 3rem 2.5rem 3.5rem;
 }
 
 .lnet-search-panel.is-compact {
@@ -29,7 +29,7 @@
 
 .lnet-search-form {
 	display: grid;
-	gap: 1rem;
+	gap: 0.95rem;
 }
 
 .lnet-search-primary {
@@ -74,12 +74,18 @@
 }
 
 .lnet-search-primary input {
+	background-image: url("data:image/svg+xml,%3Csvg width='25' height='25' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='9.25' fill='none' stroke='%23ff6b00' stroke-width='1.5'/%3E%3Cpath d='M18 18l5 5' stroke='%23ff6b00' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-position: right 0.8rem center;
+	background-repeat: no-repeat;
+	background-size: 25px 25px;
 	font-size: 1rem;
 	min-height: 3.05rem;
+	padding-right: 3rem;
 }
 
 .lnet-filter-grid select {
 	font-weight: 700;
+	min-height: 2.85rem;
 }
 
 .lnet-search-primary input:focus,
@@ -113,6 +119,10 @@
 	display: grid;
 	gap: 0.95rem 0.85rem;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lnet-filter-grid {
+	grid-template-rows: repeat(2, auto);
 }
 
 .lnet-filter-grid label,
@@ -522,7 +532,6 @@
 		grid-column: 2;
 	}
 
-	.lnet-filter-grid,
 	.lnet-form-grid,
 	.lnet-card-grid,
 	.lnet-style-grid,
@@ -577,5 +586,21 @@
 	.lnet-map-box,
 	.lnet-gallery {
 		padding: 1rem;
+	}
+}
+
+@media (max-width: 760px) {
+	.lnet-filter-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 520px) {
+	.lnet-filter-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.lnet-search-panel:not(.is-compact) {
+		padding: 1.25rem;
 	}
 }
