@@ -7,27 +7,54 @@
 }
 
 .lnet-search-panel {
-	background: #ffffff;
-	border: 1px solid rgba(32, 33, 36, 0.14);
-	border-radius: 8px;
-	box-shadow: 0 16px 40px rgba(7, 59, 90, 0.18);
 	color: #202124;
-	padding: 1rem;
+	margin-block: 1.25rem 2rem;
+}
+
+.lnet-search-panel:not(.is-compact) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	padding: 0;
 }
 
 .lnet-search-panel.is-compact {
 	background: rgba(255, 255, 255, 0.95);
+	border: 1px solid rgba(32, 33, 36, 0.14);
+	border-radius: 8px;
+	box-shadow: 0 16px 40px rgba(7, 59, 90, 0.18);
+	margin-block: 0;
+	padding: 1rem;
 }
 
 .lnet-search-form {
 	display: grid;
-	gap: 0.9rem;
+	gap: 1rem;
 }
 
 .lnet-search-primary {
+	align-items: start;
 	display: grid;
-	gap: 0.7rem;
+	gap: 0.85rem;
+	grid-template-columns: minmax(240px, 320px) minmax(1rem, 1fr) minmax(180px, 214px);
+}
+
+.lnet-search-panel.is-compact .lnet-search-primary {
 	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.lnet-search-primary input {
+	grid-column: 1;
+}
+
+.lnet-search-primary button {
+	grid-column: 3;
+	width: 100%;
+}
+
+.lnet-search-panel.is-compact .lnet-search-primary input,
+.lnet-search-panel.is-compact .lnet-search-primary button {
+	grid-column: auto;
 }
 
 .lnet-search-primary input,
@@ -37,34 +64,54 @@
 .lnet-form textarea,
 .lnet-newsletter-form input {
 	background: #ffffff;
-	border: 1px solid rgba(32, 33, 36, 0.2);
+	border: 1px solid rgba(32, 33, 36, 0.22);
 	border-radius: 6px;
 	color: #202124;
 	font: inherit;
-	min-height: 2.75rem;
-	padding: 0.72rem 0.8rem;
+	min-height: 2.8rem;
+	padding: 0.68rem 0.8rem;
 	width: 100%;
+}
+
+.lnet-search-primary input {
+	font-size: 1rem;
+	min-height: 3.05rem;
+}
+
+.lnet-filter-grid select {
+	font-weight: 700;
+}
+
+.lnet-search-primary input:focus,
+.lnet-filter-grid select:focus,
+.lnet-form input:focus,
+.lnet-form select:focus,
+.lnet-form textarea:focus,
+.lnet-newsletter-form input:focus {
+	border-color: #073b5a;
+	box-shadow: 0 0 0 2px rgba(7, 59, 90, 0.12);
+	outline: 0;
 }
 
 .lnet-search-primary button,
 .lnet-submit,
 .lnet-newsletter-form button {
-	background: #f28c28;
+	background: linear-gradient(135deg, #ffbd2e 0%, #ff8a1f 56%, #ff5252 100%);
 	border: 0;
 	border-radius: 6px;
 	color: #202124;
 	cursor: pointer;
 	font: inherit;
 	font-weight: 800;
-	min-height: 2.75rem;
-	padding: 0.72rem 1rem;
+	min-height: 3.05rem;
+	padding: 0.72rem 1.25rem;
 	white-space: nowrap;
 }
 
 .lnet-filter-grid,
 .lnet-form-grid {
 	display: grid;
-	gap: 0.8rem;
+	gap: 0.95rem 0.85rem;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -72,9 +119,10 @@
 .lnet-form label {
 	color: #202124;
 	display: grid;
-	font-size: 0.9rem;
+	font-size: 0.92rem;
 	font-weight: 800;
-	gap: 0.32rem;
+	gap: 0.38rem;
+	line-height: 1.2;
 }
 
 .lnet-card-grid,
@@ -462,6 +510,18 @@
 }
 
 @media (max-width: 980px) {
+	.lnet-search-primary {
+		grid-template-columns: minmax(0, 1fr) minmax(180px, 214px);
+	}
+
+	.lnet-search-primary input {
+		grid-column: 1;
+	}
+
+	.lnet-search-primary button {
+		grid-column: 2;
+	}
+
 	.lnet-filter-grid,
 	.lnet-form-grid,
 	.lnet-card-grid,
@@ -502,6 +562,7 @@
 
 	.lnet-search-primary button,
 	.lnet-newsletter-form button {
+		grid-column: auto;
 		width: 100%;
 	}
 
