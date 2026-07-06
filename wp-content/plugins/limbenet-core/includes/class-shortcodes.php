@@ -788,7 +788,56 @@ class LimbeNet_Core_Shortcodes {
 			return '<img loading="lazy" src="' . esc_url( $url ) . '" alt="' . esc_attr( $title ) . '">';
 		}
 
+		$default_image = $this->default_card_image( $type, $title );
+		if ( $default_image ) {
+			return $default_image;
+		}
+
 		return '<span class="lnet-card-placeholder" aria-hidden="true"></span>';
+	}
+
+	/**
+	 * Render a default card thumbnail for featured homepage widgets.
+	 *
+	 * @param string $type Post type.
+	 * @param string $title Card title.
+	 * @return string
+	 */
+	private function default_card_image( $type, $title ) {
+		$images = array(
+			'destination' => 'home-featured-destinations.webp',
+			'attraction'  => 'home-popular-attractions.webp',
+			'itinerary'   => 'home-latest-travel-guides.webp',
+			'deal'        => 'home-featured-deals.webp',
+		);
+
+		if ( empty( $images[ $type ] ) ) {
+			return '';
+		}
+
+		$filename  = $images[ $type ];
+		$locations = array(
+			array(
+				'path' => trailingslashit( get_stylesheet_directory() ) . 'assets/images/' . $filename,
+				'url'  => trailingslashit( get_stylesheet_directory_uri() ) . 'assets/images/' . $filename,
+			),
+			array(
+				'path' => trailingslashit( get_template_directory() ) . 'assets/images/' . $filename,
+				'url'  => trailingslashit( get_template_directory_uri() ) . 'assets/images/' . $filename,
+			),
+			array(
+				'path' => LIMBENET_CORE_PATH . 'assets/images/' . $filename,
+				'url'  => LIMBENET_CORE_URL . 'assets/images/' . $filename,
+			),
+		);
+
+		foreach ( $locations as $location ) {
+			if ( file_exists( $location['path'] ) ) {
+				return '<img loading="lazy" src="' . esc_url( $location['url'] ) . '" alt="' . esc_attr( $title ) . '">';
+			}
+		}
+
+		return '';
 	}
 
 	/**
