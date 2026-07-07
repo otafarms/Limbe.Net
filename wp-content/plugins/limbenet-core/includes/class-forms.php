@@ -77,6 +77,7 @@ class LimbeNet_Core_Forms {
 		$type     = sanitize_key( $type );
 		$defaults = self::form_defaults( $type );
 		$args     = wp_parse_args( $args, $defaults );
+		$is_contact = 'contact' === $type;
 
 		ob_start();
 		?>
@@ -90,41 +91,43 @@ class LimbeNet_Core_Forms {
 				<?php wp_nonce_field( 'limbenet_form_submit', 'limbenet_form_nonce' ); ?>
 				<input type="hidden" name="limbenet_form_type" value="<?php echo esc_attr( $type ); ?>">
 
-				<div class="lnet-form-grid">
+				<div class="lnet-form-grid<?php echo $is_contact ? ' is-contact' : ''; ?>">
 					<p>
 						<label for="<?php echo esc_attr( $type ); ?>_name"><?php esc_html_e( 'Name', 'limbenet-core' ); ?></label>
 						<input id="<?php echo esc_attr( $type ); ?>_name" name="name" type="text" required>
 					</p>
 					<p>
-						<label for="<?php echo esc_attr( $type ); ?>_business_name"><?php esc_html_e( 'Business name', 'limbenet-core' ); ?></label>
-						<input id="<?php echo esc_attr( $type ); ?>_business_name" name="business_name" type="text">
-					</p>
-					<p>
-						<label for="<?php echo esc_attr( $type ); ?>_email"><?php esc_html_e( 'Email', 'limbenet-core' ); ?></label>
-						<input id="<?php echo esc_attr( $type ); ?>_email" name="email" type="email" required>
-					</p>
-					<p>
 						<label for="<?php echo esc_attr( $type ); ?>_phone"><?php esc_html_e( 'Phone or WhatsApp', 'limbenet-core' ); ?></label>
 						<input id="<?php echo esc_attr( $type ); ?>_phone" name="phone" type="text" required>
 					</p>
-					<p>
-						<label for="<?php echo esc_attr( $type ); ?>_city"><?php esc_html_e( 'City', 'limbenet-core' ); ?></label>
-						<input id="<?php echo esc_attr( $type ); ?>_city" name="city" type="text">
+					<p class="<?php echo $is_contact ? 'is-wide' : ''; ?>">
+						<label for="<?php echo esc_attr( $type ); ?>_email"><?php esc_html_e( 'Email', 'limbenet-core' ); ?></label>
+						<input id="<?php echo esc_attr( $type ); ?>_email" name="email" type="email" required>
 					</p>
-					<p>
-						<label for="<?php echo esc_attr( $type ); ?>_business_type"><?php esc_html_e( 'Business type', 'limbenet-core' ); ?></label>
-						<select id="<?php echo esc_attr( $type ); ?>_business_type" name="business_type">
-							<option value=""><?php esc_html_e( 'Select a type', 'limbenet-core' ); ?></option>
-							<option value="hotel"><?php esc_html_e( 'Hotel', 'limbenet-core' ); ?></option>
-							<option value="restaurant"><?php esc_html_e( 'Restaurant', 'limbenet-core' ); ?></option>
-							<option value="tour-guide"><?php esc_html_e( 'Tour guide', 'limbenet-core' ); ?></option>
-							<option value="transport"><?php esc_html_e( 'Transport', 'limbenet-core' ); ?></option>
-							<option value="attraction"><?php esc_html_e( 'Attraction', 'limbenet-core' ); ?></option>
-							<option value="event"><?php esc_html_e( 'Event organizer', 'limbenet-core' ); ?></option>
-							<option value="photographer"><?php esc_html_e( 'Photographer', 'limbenet-core' ); ?></option>
-							<option value="other"><?php esc_html_e( 'Other', 'limbenet-core' ); ?></option>
-						</select>
-					</p>
+					<?php if ( ! $is_contact ) : ?>
+						<p>
+							<label for="<?php echo esc_attr( $type ); ?>_business_name"><?php esc_html_e( 'Business name', 'limbenet-core' ); ?></label>
+							<input id="<?php echo esc_attr( $type ); ?>_business_name" name="business_name" type="text">
+						</p>
+						<p>
+							<label for="<?php echo esc_attr( $type ); ?>_city"><?php esc_html_e( 'City', 'limbenet-core' ); ?></label>
+							<input id="<?php echo esc_attr( $type ); ?>_city" name="city" type="text">
+						</p>
+						<p>
+							<label for="<?php echo esc_attr( $type ); ?>_business_type"><?php esc_html_e( 'Business type', 'limbenet-core' ); ?></label>
+							<select id="<?php echo esc_attr( $type ); ?>_business_type" name="business_type">
+								<option value=""><?php esc_html_e( 'Select a type', 'limbenet-core' ); ?></option>
+								<option value="hotel"><?php esc_html_e( 'Hotel', 'limbenet-core' ); ?></option>
+								<option value="restaurant"><?php esc_html_e( 'Restaurant', 'limbenet-core' ); ?></option>
+								<option value="tour-guide"><?php esc_html_e( 'Tour guide', 'limbenet-core' ); ?></option>
+								<option value="transport"><?php esc_html_e( 'Transport', 'limbenet-core' ); ?></option>
+								<option value="attraction"><?php esc_html_e( 'Attraction', 'limbenet-core' ); ?></option>
+								<option value="event"><?php esc_html_e( 'Event organizer', 'limbenet-core' ); ?></option>
+								<option value="photographer"><?php esc_html_e( 'Photographer', 'limbenet-core' ); ?></option>
+								<option value="other"><?php esc_html_e( 'Other', 'limbenet-core' ); ?></option>
+							</select>
+						</p>
+					<?php endif; ?>
 				</div>
 
 				<p>
@@ -174,6 +177,11 @@ class LimbeNet_Core_Forms {
 				'intro'  => __( 'Ask about featured partner plans, sponsored content labels, and campaign placements.', 'limbenet-core' ),
 				'button' => __( 'Request advertising info', 'limbenet-core' ),
 			),
+			'contact'         => array(
+				'title'  => __( 'Get in touch', 'limbenet-core' ),
+				'intro'  => __( 'Send questions, corrections, partnership notes, or travel planning requests to the Limbe.Net team.', 'limbenet-core' ),
+				'button' => __( 'Send message', 'limbenet-core' ),
+			),
 		);
 
 		return isset( $forms[ $type ] ) ? $forms[ $type ] : $forms['booking_help'];
@@ -191,6 +199,7 @@ class LimbeNet_Core_Forms {
 			'booking_help'    => __( 'Booking help', 'limbenet-core' ),
 			'claim_listing'   => __( 'Claim listing', 'limbenet-core' ),
 			'advertise'       => __( 'Advertising inquiry', 'limbenet-core' ),
+			'contact'         => __( 'Contact message', 'limbenet-core' ),
 		);
 
 		return isset( $labels[ $type ] ) ? $labels[ $type ] : $labels['booking_help'];

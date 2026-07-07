@@ -50,7 +50,7 @@
 			</div>
 
 			<div>
-				<div class="lnet-footer-title"><?php echo esc_html__( 'Company Information', 'limbenet-coastwave' ); ?></div>
+				<div class="lnet-footer-title"><?php echo esc_html__( 'Limbe.Net', 'limbenet-coastwave' ); ?></div>
 				<div class="lnet-footer-links">
 					<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php echo esc_html__( 'About Us', 'limbenet-coastwave' ); ?></a>
 					<a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>"><?php echo esc_html__( 'Contact Us', 'limbenet-coastwave' ); ?></a>

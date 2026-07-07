@@ -67,6 +67,10 @@ class LimbeNet_Core_Settings {
 			array(
 				'default_whatsapp'      => '',
 				'default_contact_email' => get_option( 'admin_email' ),
+				'contact_phone'         => '',
+				'contact_address'       => __( 'Limbe, South West Region, Cameroon', 'limbenet-core' ),
+				'contact_business_hours' => __( "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: By appointment\nSunday: By appointment", 'limbenet-core' ),
+				'contact_map_url'       => 'https://www.google.com/maps?q=Limbe%2C%20Cameroon&output=embed',
 				'google_maps_api_key'   => '',
 				'enable_partner_ctas'   => '1',
 				'currency'              => 'XAF',
@@ -141,6 +145,10 @@ class LimbeNet_Core_Settings {
 		$settings = array(
 			'default_whatsapp'      => isset( $input['default_whatsapp'] ) ? sanitize_text_field( $input['default_whatsapp'] ) : '',
 			'default_contact_email' => isset( $input['default_contact_email'] ) ? sanitize_email( $input['default_contact_email'] ) : '',
+			'contact_phone'         => isset( $input['contact_phone'] ) ? sanitize_text_field( $input['contact_phone'] ) : '',
+			'contact_address'       => isset( $input['contact_address'] ) ? sanitize_textarea_field( $input['contact_address'] ) : '',
+			'contact_business_hours' => isset( $input['contact_business_hours'] ) ? sanitize_textarea_field( $input['contact_business_hours'] ) : '',
+			'contact_map_url'       => isset( $input['contact_map_url'] ) ? esc_url_raw( $input['contact_map_url'] ) : '',
 			'google_maps_api_key'   => isset( $input['google_maps_api_key'] ) ? sanitize_text_field( $input['google_maps_api_key'] ) : '',
 			'enable_partner_ctas'   => empty( $input['enable_partner_ctas'] ) ? '0' : '1',
 			'currency'              => isset( $input['currency'] ) && in_array( $input['currency'], array( 'XAF', 'USD', 'EUR' ), true ) ? $input['currency'] : 'XAF',
@@ -193,6 +201,22 @@ class LimbeNet_Core_Settings {
 					<tr>
 						<th scope="row"><label for="limbenet_default_contact_email"><?php esc_html_e( 'Default Contact Email', 'limbenet-core' ); ?></label></th>
 						<td><input class="regular-text" id="limbenet_default_contact_email" name="<?php echo esc_attr( self::OPTION ); ?>[default_contact_email]" type="email" value="<?php echo esc_attr( $settings['default_contact_email'] ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="limbenet_contact_phone"><?php esc_html_e( 'Contact Phone Number', 'limbenet-core' ); ?></label></th>
+						<td><input class="regular-text" id="limbenet_contact_phone" name="<?php echo esc_attr( self::OPTION ); ?>[contact_phone]" type="text" value="<?php echo esc_attr( $settings['contact_phone'] ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="limbenet_contact_address"><?php esc_html_e( 'Contact Address', 'limbenet-core' ); ?></label></th>
+						<td><textarea class="large-text" rows="3" id="limbenet_contact_address" name="<?php echo esc_attr( self::OPTION ); ?>[contact_address]"><?php echo esc_textarea( $settings['contact_address'] ); ?></textarea></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="limbenet_contact_business_hours"><?php esc_html_e( 'Business Hours', 'limbenet-core' ); ?></label></th>
+						<td><textarea class="large-text" rows="3" id="limbenet_contact_business_hours" name="<?php echo esc_attr( self::OPTION ); ?>[contact_business_hours]"><?php echo esc_textarea( $settings['contact_business_hours'] ); ?></textarea></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="limbenet_contact_map_url"><?php esc_html_e( 'Contact Map Embed URL', 'limbenet-core' ); ?></label></th>
+						<td><input class="large-text" id="limbenet_contact_map_url" name="<?php echo esc_attr( self::OPTION ); ?>[contact_map_url]" type="url" value="<?php echo esc_attr( $settings['contact_map_url'] ); ?>" placeholder="https://www.google.com/maps?..."></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="limbenet_google_maps_api_key"><?php esc_html_e( 'Google Maps API Key Placeholder', 'limbenet-core' ); ?></label></th>

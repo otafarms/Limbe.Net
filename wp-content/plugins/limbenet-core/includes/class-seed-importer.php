@@ -125,6 +125,7 @@ class LimbeNet_Core_Seed_Importer {
 		$pages = array(
 			array( 'Home', 'home', '' ),
 			array( 'About Us', 'about-us', $this->about_page_content() ),
+			array( 'Contact Us', 'contact-us', '[limbenet_contact_page]' ),
 			array( 'Things to Do', 'things-to-do', '[limbenet_travel_styles]' ),
 			array( 'Tickets & Tours', 'tickets-tours', '[limbenet_ticket_help expanded="true"][limbenet_booking_form]' ),
 			array( 'Travel Info', 'travel-info', '[limbenet_travel_info]' ),

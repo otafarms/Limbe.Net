@@ -27,6 +27,7 @@ class LimbeNet_Core_Shortcodes {
 		add_shortcode( 'limbenet_partner_cta', array( $this, 'partner_cta' ) );
 		add_shortcode( 'limbenet_newsletter', array( $this, 'newsletter' ) );
 		add_shortcode( 'limbenet_social_links', array( $this, 'social_links' ) );
+		add_shortcode( 'limbenet_contact_page', array( $this, 'contact_page' ) );
 		add_shortcode( 'limbenet_attraction_details', array( $this, 'attraction_details' ) );
 		add_shortcode( 'limbenet_destination_details', array( $this, 'destination_details' ) );
 		add_shortcode( 'limbenet_travel_info_details', array( $this, 'travel_info_details' ) );
@@ -188,6 +189,70 @@ class LimbeNet_Core_Shortcodes {
 		if ( 'contact' === $context ) {
 			$output .= '</section>';
 		}
+
+		return $output;
+	}
+
+	/**
+	 * Render Contact Us page.
+	 *
+	 * @return string
+	 */
+	public function contact_page() {
+		$settings = LimbeNet_Core_Settings::get_settings();
+		$email    = sanitize_email( $settings['default_contact_email'] );
+		$phone    = trim( ! empty( $settings['contact_phone'] ) ? $settings['contact_phone'] : $settings['default_whatsapp'] );
+		$address  = trim( $settings['contact_address'] );
+		$hours    = trim( $settings['contact_business_hours'] );
+		$map_url  = ! empty( $settings['contact_map_url'] ) ? esc_url( $settings['contact_map_url'] ) : '';
+
+		$output  = '<section class="lnet-contact-page">';
+		$output .= '<div class="lnet-contact-intro">';
+		$output .= '<div><p class="lnet-kicker">' . esc_html__( 'Contact Us', 'limbenet-core' ) . '</p><h2>' . esc_html__( 'Get in touch with Limbe.Net', 'limbenet-core' ) . '</h2></div>';
+		$output .= '<p>' . esc_html__( 'Questions about Limbe, Cameroon travel planning, partner listings, booking help, or destination updates? Send a message and the Limbe.Net team will follow up.', 'limbenet-core' ) . '</p>';
+		$output .= '</div>';
+
+		$output .= '<div class="lnet-contact-layout">';
+		$output .= LimbeNet_Core_Forms::render_form( 'contact' );
+		$output .= '<aside class="lnet-contact-side" aria-label="' . esc_attr__( 'Contact information', 'limbenet-core' ) . '">';
+		$output .= '<section class="lnet-contact-card"><h3>' . esc_html__( 'Contact information', 'limbenet-core' ) . '</h3><div class="lnet-contact-info-grid">';
+
+		if ( $phone ) {
+			$phone_href = preg_replace( '/[^0-9+]/', '', $phone );
+			$output    .= '<div class="lnet-contact-info-item"><span aria-hidden="true">P</span><div><strong>' . esc_html__( 'Phone', 'limbenet-core' ) . '</strong>';
+			$output    .= $phone_href ? '<a href="' . esc_url( 'tel:' . $phone_href ) . '">' . esc_html( $phone ) . '</a>' : '<p>' . esc_html( $phone ) . '</p>';
+			$output    .= '</div></div>';
+		}
+
+		if ( $email ) {
+			$output .= '<div class="lnet-contact-info-item"><span aria-hidden="true">E</span><div><strong>' . esc_html__( 'Email', 'limbenet-core' ) . '</strong><a href="' . esc_url( 'mailto:' . $email ) . '">' . esc_html( $email ) . '</a></div></div>';
+		}
+
+		if ( $address ) {
+			$output .= '<div class="lnet-contact-info-item"><span aria-hidden="true">A</span><div><strong>' . esc_html__( 'Address', 'limbenet-core' ) . '</strong><p>' . nl2br( esc_html( $address ) ) . '</p></div></div>';
+		}
+
+		$output .= '</div></section>';
+
+		if ( $hours ) {
+			$output .= '<section class="lnet-contact-card"><h3>' . esc_html__( 'Business hours', 'limbenet-core' ) . '</h3><div class="lnet-contact-hours">';
+			foreach ( preg_split( '/\r\n|\r|\n/', $hours ) as $line ) {
+				$line = trim( $line );
+				if ( $line ) {
+					$output .= '<span>' . esc_html( $line ) . '</span>';
+				}
+			}
+			$output .= '</div></section>';
+		}
+
+		$output .= $this->social_links( array( 'context' => 'contact' ) );
+		$output .= '</aside></div>';
+
+		if ( $map_url ) {
+			$output .= '<div class="lnet-contact-map"><iframe src="' . esc_url( $map_url ) . '" title="' . esc_attr__( 'Limbe.Net map location', 'limbenet-core' ) . '" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>';
+		}
+
+		$output .= '</section>';
 
 		return $output;
 	}
