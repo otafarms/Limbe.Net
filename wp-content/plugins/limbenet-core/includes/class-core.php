@@ -46,6 +46,7 @@ final class LimbeNet_Core {
 		$forms         = new LimbeNet_Core_Forms();
 		$shortcodes    = new LimbeNet_Core_Shortcodes();
 		$schema        = new LimbeNet_Core_Schema();
+		$cookie        = new LimbeNet_Core_Cookie_Consent();
 		$seed_importer = new LimbeNet_Core_Seed_Importer();
 
 		add_action( 'init', array( $post_types, 'register' ) );
@@ -59,6 +60,7 @@ final class LimbeNet_Core {
 		add_action( 'admin_post_limbenet_import_seed', array( $seed_importer, 'handle_import' ) );
 		add_action( 'init', array( $forms, 'handle_submission' ) );
 		add_action( 'init', array( $shortcodes, 'register' ) );
+		add_action( 'init', array( $cookie, 'register' ) );
 		add_action( 'init', array( $this, 'maybe_flush_rewrite_rules' ), 20 );
 		add_action( 'pre_get_posts', array( $shortcodes, 'filter_main_query' ) );
 		add_action( 'wp_head', array( $schema, 'print_schema' ), 30 );

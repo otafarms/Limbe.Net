@@ -72,6 +72,9 @@ class LimbeNet_Core_Settings {
 				'currency'              => 'XAF',
 				'affiliate_disclosure'  => __( 'Some links may be partner or affiliate links. Limbe.Net may earn a commission at no extra cost to you.', 'limbenet-core' ),
 				'safety_disclaimer'     => __( 'Travel conditions can change. Check official advisories and local guidance before planning or booking.', 'limbenet-core' ),
+				'enable_cookie_consent' => '1',
+				'cookie_consent_version' => '2026-07-07',
+				'cookie_banner_text'    => __( 'Limbe.Net uses essential cookies for site security, forms, and preferences. With your permission, we may also use analytics or marketing cookies to improve travel content and measure campaigns. You can accept, reject optional cookies, or manage your choices.', 'limbenet-core' ),
 			),
 			array_fill_keys( array_keys( self::social_fields() ), '' )
 		);
@@ -146,6 +149,9 @@ class LimbeNet_Core_Settings {
 			'currency'              => isset( $input['currency'] ) && in_array( $input['currency'], array( 'XAF', 'USD', 'EUR' ), true ) ? $input['currency'] : 'XAF',
 			'affiliate_disclosure'  => isset( $input['affiliate_disclosure'] ) ? sanitize_textarea_field( $input['affiliate_disclosure'] ) : '',
 			'safety_disclaimer'     => isset( $input['safety_disclaimer'] ) ? sanitize_textarea_field( $input['safety_disclaimer'] ) : '',
+			'enable_cookie_consent' => empty( $input['enable_cookie_consent'] ) ? '0' : '1',
+			'cookie_consent_version' => isset( $input['cookie_consent_version'] ) ? sanitize_key( $input['cookie_consent_version'] ) : '',
+			'cookie_banner_text'    => isset( $input['cookie_banner_text'] ) ? sanitize_textarea_field( $input['cookie_banner_text'] ) : '',
 		);
 
 		foreach ( array_keys( self::social_fields() ) as $key ) {
@@ -231,6 +237,21 @@ class LimbeNet_Core_Settings {
 					<tr>
 						<th scope="row"><label for="limbenet_safety_disclaimer"><?php esc_html_e( 'Safety Disclaimer Text', 'limbenet-core' ); ?></label></th>
 						<td><textarea class="large-text" rows="4" id="limbenet_safety_disclaimer" name="<?php echo esc_attr( self::OPTION ); ?>[safety_disclaimer]"><?php echo esc_textarea( $settings['safety_disclaimer'] ); ?></textarea></td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Cookie Consent Banner', 'limbenet-core' ); ?></th>
+						<td>
+							<p><label><input name="<?php echo esc_attr( self::OPTION ); ?>[enable_cookie_consent]" type="checkbox" value="1" <?php checked( '1', $settings['enable_cookie_consent'] ); ?>> <?php esc_html_e( 'Show GDPR-style cookie consent banner.', 'limbenet-core' ); ?></label></p>
+							<p>
+								<label for="limbenet_cookie_consent_version"><strong><?php esc_html_e( 'Consent Version', 'limbenet-core' ); ?></strong></label><br>
+								<input class="regular-text" id="limbenet_cookie_consent_version" name="<?php echo esc_attr( self::OPTION ); ?>[cookie_consent_version]" type="text" value="<?php echo esc_attr( $settings['cookie_consent_version'] ); ?>">
+								<span class="description"><?php esc_html_e( 'Change this value when cookie categories or wording materially change so visitors are asked again.', 'limbenet-core' ); ?></span>
+							</p>
+							<p>
+								<label for="limbenet_cookie_banner_text"><strong><?php esc_html_e( 'Banner Text', 'limbenet-core' ); ?></strong></label><br>
+								<textarea class="large-text" rows="4" id="limbenet_cookie_banner_text" name="<?php echo esc_attr( self::OPTION ); ?>[cookie_banner_text]"><?php echo esc_textarea( $settings['cookie_banner_text'] ); ?></textarea>
+							</p>
+						</td>
 					</tr>
 				</table>
 				<?php submit_button(); ?>
