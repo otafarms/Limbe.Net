@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LIMBENET_THEME_VERSION', '0.1.0' );
+define( 'LIMBENET_THEME_VERSION', '0.1.1' );
 
 /**
  * Set up theme supports.

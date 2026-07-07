@@ -77,6 +77,25 @@ img {
 	text-transform: uppercase;
 }
 
+.lnet-brand:focus-visible {
+	border-radius: 6px;
+	outline: 2px solid var(--lnet-sunset);
+	outline-offset: 4px;
+}
+
+.lnet-header-brand {
+	align-items: center;
+	flex: 0 0 auto;
+	flex-direction: row;
+	line-height: 1;
+}
+
+.lnet-brand-logo {
+	display: block;
+	height: auto;
+	width: 11.25rem;
+}
+
 .lnet-nav {
 	align-items: center;
 	display: flex;
@@ -491,6 +510,10 @@ img {
 
 	.lnet-brand {
 		font-size: 1.25rem;
+	}
+
+	.lnet-brand-logo {
+		width: 9.75rem;
 	}
 
 	.lnet-hero,

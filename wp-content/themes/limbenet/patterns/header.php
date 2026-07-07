@@ -10,9 +10,8 @@
 <!-- wp:html -->
 <header class="lnet-site-header">
 	<div class="lnet-wrap lnet-header-inner">
-		<a class="lnet-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<?php echo esc_html__( 'Limbe.Net', 'limbenet' ); ?>
-			<span><?php echo esc_html__( 'Cameroon Travel Guide', 'limbenet' ); ?></span>
+		<a class="lnet-brand lnet-header-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr__( 'Limbe.Net home', 'limbenet' ); ?>">
+			<img class="lnet-brand-logo" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/site-logo.png' ); ?>" alt="<?php echo esc_attr__( 'Limbe.Net', 'limbenet' ); ?>" width="1425" height="570" decoding="async">
 		</a>
 
 		<nav class="lnet-nav" aria-label="<?php echo esc_attr__( 'Primary navigation', 'limbenet' ); ?>">
