@@ -127,6 +127,7 @@ class LimbeNet_Core_Seed_Importer {
 			array( 'About Us', 'about-us', $this->about_page_content() ),
 			array( 'Contact Us', 'contact-us', '[limbenet_contact_page]' ),
 			array( 'Terms & Conditions', 'terms-and-conditions', $this->terms_page_content(), false ),
+			array( 'Privacy Policy', 'privacy-policy', $this->privacy_page_content(), false ),
 			array( 'Things to Do', 'things-to-do', '[limbenet_travel_styles]' ),
 			array( 'Tickets & Tours', 'tickets-tours', '[limbenet_ticket_help expanded="true"][limbenet_booking_form]' ),
 			array( 'Travel Info', 'travel-info', '[limbenet_travel_info]' ),
@@ -313,6 +314,112 @@ class LimbeNet_Core_Seed_Importer {
 		<section>
 			<h3>17. Contact</h3>
 			<p>Questions about these Terms & Conditions can be sent through the <a href="' . esc_url( $contact_url ) . '">Contact Us</a> page.</p>
+		</section>
+	</div>
+</section>';
+	}
+
+	/**
+	 * Get seeded Privacy Policy page content.
+	 *
+	 * @return string
+	 */
+	private function privacy_page_content() {
+		$contact_url = home_url( '/contact-us/' );
+		$updated     = gmdate( 'F j, Y' );
+
+		return '<section class="lnet-legal-page">
+	<div class="lnet-legal-notice">
+		<p><strong>Last updated: ' . esc_html( $updated ) . '</strong></p>
+		<p>This Privacy Policy is a starter template for Limbe.Net and should be reviewed by a qualified legal professional before public launch. It explains what personal information Limbe.Net may collect, how it may be used, when it may be shared, and the choices available to visitors, travelers, partners, and listing owners.</p>
+	</div>
+
+	<div class="lnet-legal-grid">
+		<section>
+			<h3>1. Who we are</h3>
+			<p>Limbe.Net is an independent Cameroon tourism guide. We publish travel information, destination guides, attraction pages, partner listings, deals, events, booking-help forms, and related tourism content. Limbe.Net is not an official government portal.</p>
+			<p>This Privacy Policy applies to personal information collected through Limbe.Net, related forms, email communications, partner listing requests, advertising inquiries, and similar site features.</p>
+		</section>
+
+		<section>
+			<h3>2. Information we collect</h3>
+			<p>We may collect information you provide directly, such as your name, email address, phone or WhatsApp number, city, business name, business type, listing details, claim requests, advertising inquiries, booking-help messages, corrections, feedback, and any files or text you choose to submit.</p>
+			<p>We may collect technical and usage information automatically, such as IP address, browser type, device type, operating system, referring pages, pages viewed, approximate location derived from IP address, date and time of visits, and interactions with site features.</p>
+			<p>If we later offer paid advertising, sponsored placements, subscriptions, ticketing, or other paid services, we may collect transaction details needed to process or document those services. Payment card details should be handled by payment processors and should not be stored directly by Limbe.Net unless clearly disclosed.</p>
+		</section>
+
+		<section>
+			<h3>3. How we use information</h3>
+			<p>We may use personal information to respond to messages, process booking-help requests, review partner listings, verify listing claims, manage advertising inquiries, improve site content, maintain security, detect abuse, personalize communications, measure site performance, and operate Limbe.Net.</p>
+			<p>We may also use information to send service messages, respond to legal requests, enforce site terms, protect users and partners, comply with applicable law, and support business administration.</p>
+		</section>
+
+		<section>
+			<h3>4. Legal bases and consent</h3>
+			<p>Depending on where you live, our legal bases for processing may include your consent, performance of a requested service, legitimate interests in operating and improving Limbe.Net, compliance with legal obligations, and protection of rights, safety, and security.</p>
+			<p>Where consent is required, you may withdraw it by contacting us or using available unsubscribe or preference tools. Withdrawal does not affect processing that occurred before consent was withdrawn.</p>
+		</section>
+
+		<section>
+			<h3>5. Cookies, analytics, and similar technologies</h3>
+			<p>Limbe.Net may use cookies, local storage, analytics tools, security tools, embedded maps, social links, and similar technologies to operate the site, remember preferences, understand site traffic, protect against abuse, and improve user experience.</p>
+			<p>Third-party services, such as analytics providers, map providers, social media platforms, advertising partners, video embeds, or booking partners, may collect information according to their own privacy notices. Browser settings may allow you to block or delete cookies, but some site features may not work properly without them.</p>
+		</section>
+
+		<section>
+			<h3>6. How we share information</h3>
+			<p>We may share information with service providers that help us host, secure, analyze, maintain, translate, or improve the site. We may share booking-help or listing-related details with relevant tourism partners when needed to respond to your request.</p>
+			<p>We may share information if required by law, legal process, public authorities, safety concerns, fraud prevention, rights protection, business transfers, or with your consent. We do not sell personal information in the ordinary meaning of selling customer lists for money. If this practice changes, we will update this policy and provide legally required choices.</p>
+		</section>
+
+		<section>
+			<h3>7. Partner listings and public content</h3>
+			<p>Information submitted for business listings, events, attractions, deals, claims, or partner pages may be reviewed, edited, and published on Limbe.Net if approved. Do not submit confidential personal information for public listing fields.</p>
+			<p>Published listing details may include business names, locations, contact details, websites, social media links, descriptions, images, and service information that you or a representative provides or authorizes.</p>
+		</section>
+
+		<section>
+			<h3>8. International users and transfers</h3>
+			<p>Limbe.Net may be accessed from Cameroon, the United States, the European Economic Area, the United Kingdom, and other locations. Information may be processed in countries where we, our hosting providers, email providers, analytics providers, or other service providers operate.</p>
+			<p>Privacy laws may differ by country. Where required, we will use reasonable safeguards for international transfers and respect applicable privacy rights.</p>
+		</section>
+
+		<section>
+			<h3>9. Data retention</h3>
+			<p>We keep personal information only as long as reasonably necessary for the purposes described in this policy, including responding to requests, maintaining records, resolving disputes, improving site operations, meeting legal obligations, and protecting the site.</p>
+			<p>Retention periods may vary depending on the type of information, the reason it was collected, legal requirements, security needs, and whether deletion has been requested.</p>
+		</section>
+
+		<section>
+			<h3>10. Security</h3>
+			<p>We use reasonable administrative, technical, and organizational safeguards designed to protect personal information. No website, email, hosting provider, form, or internet transmission can be guaranteed completely secure.</p>
+			<p>Please avoid sending sensitive information unless it is necessary for your request.</p>
+		</section>
+
+		<section>
+			<h3>11. Your privacy choices and rights</h3>
+			<p>Depending on your location, you may have rights to request access to personal information, correction, deletion, restriction, objection, portability, withdrawal of consent, or information about how personal information is used and shared.</p>
+			<p>You may also unsubscribe from marketing emails where an unsubscribe option is provided. We may need to verify your request before acting on it, and some information may be retained where required or permitted by law.</p>
+		</section>
+
+		<section>
+			<h3>12. Children</h3>
+			<p>Limbe.Net is intended for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information, please contact us so we can review and delete it where appropriate.</p>
+		</section>
+
+		<section>
+			<h3>13. Third-party links</h3>
+			<p>Limbe.Net may link to third-party websites, booking platforms, government websites, social media platforms, hotels, restaurants, guides, attractions, transport providers, and advertisers. Those third parties control their own privacy practices. Review their privacy policies before submitting information to them.</p>
+		</section>
+
+		<section>
+			<h3>14. Changes to this policy</h3>
+			<p>We may update this Privacy Policy from time to time. Updated versions will be posted on this page. If changes are material, we may provide additional notice where appropriate.</p>
+		</section>
+
+		<section>
+			<h3>15. Contact</h3>
+			<p>Questions or privacy requests can be sent through the <a href="' . esc_url( $contact_url ) . '">Contact Us</a> page.</p>
 		</section>
 	</div>
 </section>';
