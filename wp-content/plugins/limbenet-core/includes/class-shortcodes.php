@@ -765,6 +765,8 @@ class LimbeNet_Core_Shortcodes {
 	 * @return string
 	 */
 	private function card_image( $post_id, $title ) {
+		$type = get_post_type( $post_id );
+
 		if ( has_post_thumbnail( $post_id ) ) {
 			return get_the_post_thumbnail(
 				$post_id,
@@ -804,18 +806,11 @@ class LimbeNet_Core_Shortcodes {
 	 * @return string
 	 */
 	private function default_card_image( $type, $title ) {
-		$images = array(
-			'destination' => 'home-featured-destinations.webp',
-			'attraction'  => 'home-popular-attractions.webp',
-			'itinerary'   => 'home-latest-travel-guides.webp',
-			'deal'        => 'home-featured-deals.webp',
-		);
-
-		if ( empty( $images[ $type ] ) ) {
+		$filename = $this->default_card_image_filename( $type, $title );
+		if ( ! $filename ) {
 			return '';
 		}
 
-		$filename  = $images[ $type ];
 		$locations = array(
 			array(
 				'path' => trailingslashit( get_stylesheet_directory() ) . 'assets/images/' . $filename,
@@ -838,6 +833,30 @@ class LimbeNet_Core_Shortcodes {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Get the default card thumbnail filename for a post type and title.
+	 *
+	 * @param string $type Post type.
+	 * @param string $title Card title.
+	 * @return string
+	 */
+	private function default_card_image_filename( $type, $title ) {
+		$slug = sanitize_title( $title );
+
+		if ( 'destination' === $type && in_array( $slug, array( 'limbe', 'limbe-city' ), true ) ) {
+			return 'limbe-city-featured.webp';
+		}
+
+		$images = array(
+			'destination' => 'home-featured-destinations.webp',
+			'attraction'  => 'home-popular-attractions.webp',
+			'itinerary'   => 'home-latest-travel-guides.webp',
+			'deal'        => 'home-featured-deals.webp',
+		);
+
+		return isset( $images[ $type ] ) ? $images[ $type ] : '';
 	}
 
 	/**

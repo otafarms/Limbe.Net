@@ -177,25 +177,31 @@ class LimbeNet_Core_Seed_Importer {
 		foreach ( $destinations as $index => $destination ) {
 			$title  = $destination[0];
 			$region = $destination[1];
+			$meta   = array(
+				'destination_name'         => $title,
+				'region'                   => $region,
+				'overview'                 => $destination[2],
+				'best_for'                 => 'Culture, nature, food, and responsible travel planning.',
+				'travel_time_from_douala'  => 'Needs verification.',
+				'travel_time_from_yaounde' => 'Needs verification.',
+				'safety_notice'            => 'Check current travel advisory before planning this trip.',
+				'advisory_level'           => 'check-before-travel',
+				'top_attractions'          => 'Needs verification.',
+				'where_to_stay'            => 'Use verified partner listings where available.',
+				'how_to_get_there'         => 'Confirm current transport options before travel.',
+				'last_verified_date'       => 'Needs verification.',
+				'featured'                 => $index < 6 ? 'yes' : 'no',
+			);
+
+			if ( 'Limbe' === $title ) {
+				$meta['featured_image'] = LIMBENET_CORE_URL . 'assets/images/limbe-city-featured.webp';
+			}
+
 			$post_id = $this->ensure_post(
 				'destination',
 				$title,
 				$destination[2],
-				array(
-					'destination_name'         => $title,
-					'region'                   => $region,
-					'overview'                 => $destination[2],
-					'best_for'                 => 'Culture, nature, food, and responsible travel planning.',
-					'travel_time_from_douala'  => 'Needs verification.',
-					'travel_time_from_yaounde' => 'Needs verification.',
-					'safety_notice'            => 'Check current travel advisory before planning this trip.',
-					'advisory_level'           => 'check-before-travel',
-					'top_attractions'          => 'Needs verification.',
-					'where_to_stay'            => 'Use verified partner listings where available.',
-					'how_to_get_there'         => 'Confirm current transport options before travel.',
-					'last_verified_date'       => 'Needs verification.',
-					'featured'                 => $index < 6 ? 'yes' : 'no',
-				),
+				$meta,
 				array(
 					'region'        => array( $region ),
 					'safety_status' => array( 'Check current advisory before travel' ),
