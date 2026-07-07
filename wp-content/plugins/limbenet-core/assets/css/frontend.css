@@ -464,6 +464,7 @@ a.lnet-social-link:hover {
 }
 
 .lnet-quick-facts,
+.lnet-detail-hero,
 .lnet-detail-section,
 .lnet-safety-box,
 .lnet-ticket-card,
@@ -474,6 +475,20 @@ a.lnet-social-link:hover {
 	border: 1px solid rgba(32, 33, 36, 0.14);
 	border-radius: 8px;
 	padding: 1.25rem;
+}
+
+.lnet-detail-hero {
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+}
+
+.lnet-detail-hero img {
+	aspect-ratio: 16 / 9;
+	display: block;
+	height: 100%;
+	object-fit: cover;
+	width: 100%;
 }
 
 .lnet-quick-facts {
@@ -541,6 +556,17 @@ a.lnet-social-link:hover {
 .lnet-safety-box p,
 .lnet-detail-section p {
 	margin: 0;
+}
+
+.lnet-source-section ul {
+	display: grid;
+	gap: 0.45rem;
+	margin: 0;
+	padding-left: 1.2rem;
+}
+
+.lnet-source-section p {
+	margin-top: 0.9rem;
 }
 
 .lnet-ticket-grid,

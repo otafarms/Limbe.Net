@@ -19,7 +19,7 @@ class LimbeNet_Core_Post_Types {
 	 * @return array
 	 */
 	public static function public_types() {
-		return array( 'attraction', 'destination', 'itinerary', 'partner', 'deal', 'event' );
+		return array( 'attraction', 'destination', 'travel_info', 'itinerary', 'partner', 'deal', 'event' );
 	}
 
 	/**
@@ -53,6 +53,11 @@ class LimbeNet_Core_Post_Types {
 				'places-to-go',
 				'dashicons-location'
 			)
+		);
+
+		register_post_type(
+			'travel_info',
+			$this->travel_info_args()
 		);
 
 		register_post_type(
@@ -139,6 +144,28 @@ class LimbeNet_Core_Post_Types {
 			'delete_with_user'   => false,
 			'publicly_queryable' => true,
 		);
+	}
+
+	/**
+	 * Build travel info post type args.
+	 *
+	 * Uses the /travel-info/{slug}/ permalink while leaving the /travel-info/
+	 * page available as the editable hub.
+	 *
+	 * @return array
+	 */
+	private function travel_info_args() {
+		$args = $this->public_args(
+			__( 'Travel Info', 'limbenet-core' ),
+			__( 'Travel Info Page', 'limbenet-core' ),
+			'travel-info',
+			'dashicons-info-outline'
+		);
+
+		$args['has_archive'] = false;
+		$args['supports']    = array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields', 'page-attributes' );
+
+		return $args;
 	}
 
 	/**

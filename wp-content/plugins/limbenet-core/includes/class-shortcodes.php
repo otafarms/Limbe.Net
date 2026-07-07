@@ -29,6 +29,7 @@ class LimbeNet_Core_Shortcodes {
 		add_shortcode( 'limbenet_social_links', array( $this, 'social_links' ) );
 		add_shortcode( 'limbenet_attraction_details', array( $this, 'attraction_details' ) );
 		add_shortcode( 'limbenet_destination_details', array( $this, 'destination_details' ) );
+		add_shortcode( 'limbenet_travel_info_details', array( $this, 'travel_info_details' ) );
 		add_shortcode( 'limbenet_booking_form', array( $this, 'booking_form' ) );
 		add_shortcode( 'limbenet_partner_form', array( $this, 'partner_form' ) );
 		add_shortcode( 'limbenet_claim_form', array( $this, 'claim_form' ) );
@@ -346,21 +347,11 @@ class LimbeNet_Core_Shortcodes {
 	 * @return string
 	 */
 	public function plan_trip() {
-		$items = array(
-			'visa-evisa'              => __( 'Visa & eVisa', 'limbenet-core' ),
-			'airports'                => __( 'Airports', 'limbenet-core' ),
-			'getting-around'          => __( 'Getting around', 'limbenet-core' ),
-			'money-payments'          => __( 'Money & payments', 'limbenet-core' ),
-			'sim-cards-internet'      => __( 'SIM cards & internet', 'limbenet-core' ),
-			'safety-travel-advisory'  => __( 'Safety & travel advisories', 'limbenet-core' ),
-			'health-packing'          => __( 'Health & packing', 'limbenet-core' ),
-			'best-time-to-visit'      => __( 'Best time to visit', 'limbenet-core' ),
-			'responsible-travel'      => __( 'Responsible travel', 'limbenet-core' ),
-		);
+		$items = $this->travel_info_items();
 
 		$output = '<div class="lnet-info-grid">';
-		foreach ( $items as $anchor => $label ) {
-			$output .= '<a class="lnet-info-card" href="' . esc_url( home_url( '/travel-info/#' . $anchor ) ) . '"><strong>' . esc_html( $label ) . '</strong><span>' . esc_html__( 'Read planning notes', 'limbenet-core' ) . '</span></a>';
+		foreach ( $items as $item ) {
+			$output .= '<a class="lnet-info-card" href="' . esc_url( $item['url'] ) . '"><strong>' . esc_html( $item['label'] ) . '</strong><span>' . esc_html__( 'Read planning notes', 'limbenet-core' ) . '</span></a>';
 		}
 		$output .= '</div>';
 
@@ -412,10 +403,81 @@ class LimbeNet_Core_Shortcodes {
 		$settings = LimbeNet_Core_Settings::get_settings();
 		$output   = '<div class="lnet-hub">';
 		$output  .= '<p class="lnet-disclosure">' . esc_html( $settings['safety_disclaimer'] ) . '</p>';
-		$output  .= $this->plan_trip();
+		$query    = $this->travel_info_query();
+
+		if ( $query->have_posts() ) {
+			$output .= $this->render_query_grid( $query, __( 'No travel info pages found yet. Import seed content or add travel info pages in WordPress admin.', 'limbenet-core' ) );
+		} else {
+			$output .= $this->plan_trip();
+		}
+
 		$output  .= '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * Get travel info posts ordered for hub/widget display.
+	 *
+	 * @return WP_Query
+	 */
+	private function travel_info_query() {
+		return new WP_Query(
+			array(
+				'post_type'      => 'travel_info',
+				'posts_per_page' => -1,
+				'orderby'        => array(
+					'menu_order' => 'ASC',
+					'title'      => 'ASC',
+				),
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
+	}
+
+	/**
+	 * Get travel info links for compact widgets.
+	 *
+	 * @return array
+	 */
+	private function travel_info_items() {
+		$query = $this->travel_info_query();
+		$items = array();
+
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$items[] = array(
+				'label' => get_the_title(),
+				'url'   => get_permalink(),
+			);
+		}
+		wp_reset_postdata();
+
+		if ( $items ) {
+			return $items;
+		}
+
+		$labels = array(
+			'visa-evisa'                => __( 'Visa & eVisa', 'limbenet-core' ),
+			'airports'                  => __( 'Airports', 'limbenet-core' ),
+			'getting-around'            => __( 'Getting around', 'limbenet-core' ),
+			'money-payments'            => __( 'Money & payments', 'limbenet-core' ),
+			'sim-cards-internet'        => __( 'SIM cards & internet', 'limbenet-core' ),
+			'safety-travel-advisories'  => __( 'Safety & travel advisories', 'limbenet-core' ),
+			'health-packing'            => __( 'Health & packing', 'limbenet-core' ),
+			'best-time-to-visit'        => __( 'Best time to visit', 'limbenet-core' ),
+			'responsible-travel'        => __( 'Responsible travel', 'limbenet-core' ),
+		);
+
+		foreach ( $labels as $slug => $label ) {
+			$items[] = array(
+				'label' => $label,
+				'url'   => home_url( '/travel-info/' . $slug . '/' ),
+			);
+		}
+
+		return $items;
 	}
 
 	/**
@@ -574,6 +636,50 @@ class LimbeNet_Core_Shortcodes {
 				<section class="lnet-detail-section"><h2><?php esc_html_e( 'Where to stay', 'limbenet-core' ); ?></h2><?php echo $this->paragraphs( $meta['where_to_stay'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></section>
 				<section class="lnet-detail-section"><h2><?php esc_html_e( 'How to get there', 'limbenet-core' ); ?></h2><?php echo $this->paragraphs( $meta['how_to_get_there'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></section>
 				<?php echo $this->map_placeholder_from_string( $meta['map_coordinates'], get_the_title( $post_id ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render travel info detail layout.
+	 *
+	 * @return string
+	 */
+	public function travel_info_details() {
+		$post_id = get_the_ID();
+		if ( ! $post_id || 'travel_info' !== get_post_type( $post_id ) ) {
+			return '';
+		}
+
+		$meta = $this->post_meta_map( $post_id );
+
+		ob_start();
+		?>
+		<div class="lnet-detail-layout is-travel-info">
+			<aside class="lnet-quick-facts">
+				<h2><?php esc_html_e( 'Planning facts', 'limbenet-core' ); ?></h2>
+				<?php $this->fact( __( 'Topic', 'limbenet-core' ), get_the_title( $post_id ) ); ?>
+				<?php $this->fact( __( 'Focus', 'limbenet-core' ), $meta['travel_info_subtitle'] ); ?>
+				<?php $this->fact( __( 'Last verified', 'limbenet-core' ), $meta['last_verified_date'] ?: __( 'Needs verification', 'limbenet-core' ) ); ?>
+			</aside>
+
+			<div class="lnet-detail-main">
+				<?php echo $this->travel_info_hero( $post_id, $meta ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo $this->safety_notice( $meta['advisory_level'], $meta['safety_notice'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+				<section class="lnet-detail-section">
+					<h2><?php esc_html_e( 'Key planning notes', 'limbenet-core' ); ?></h2>
+					<?php echo $this->list_from_text( $meta['key_points'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</section>
+
+				<section class="lnet-detail-section">
+					<h2><?php esc_html_e( 'Detailed guidance', 'limbenet-core' ); ?></h2>
+					<?php echo $this->paragraphs( $meta['details'] ?: $meta['summary'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</section>
+
+				<?php echo $this->source_links( $meta['official_links'], $meta['source_notes'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 		</div>
 		<?php
@@ -852,6 +958,7 @@ class LimbeNet_Core_Shortcodes {
 		$images = array(
 			'destination' => 'home-featured-destinations.webp',
 			'attraction'  => 'home-popular-attractions.webp',
+			'travel_info' => 'travel-info-default.webp',
 			'itinerary'   => 'home-latest-travel-guides.webp',
 			'deal'        => 'home-featured-deals.webp',
 		);
@@ -866,7 +973,7 @@ class LimbeNet_Core_Shortcodes {
 	 * @return string
 	 */
 	private function card_excerpt( $post_id ) {
-		foreach ( array( 'short_description', 'overview', 'description', 'discount_text', 'best_for' ) as $key ) {
+		foreach ( array( 'short_description', 'overview', 'summary', 'description', 'discount_text', 'best_for' ) as $key ) {
 			$value = get_post_meta( $post_id, $key, true );
 			if ( $value ) {
 				return wp_trim_words( $value, 24 );
@@ -1216,6 +1323,60 @@ class LimbeNet_Core_Shortcodes {
 			}
 		}
 		$output .= '</div></section>';
+
+		return $output;
+	}
+
+	/**
+	 * Render travel info hero image from meta when no WP featured image exists.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $meta Meta map.
+	 * @return string
+	 */
+	private function travel_info_hero( $post_id, $meta ) {
+		if ( has_post_thumbnail( $post_id ) || empty( $meta['featured_image'] ) ) {
+			return '';
+		}
+
+		return '<figure class="lnet-detail-hero"><img loading="eager" src="' . esc_url( $meta['featured_image'] ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '"></figure>';
+	}
+
+	/**
+	 * Render official source links.
+	 *
+	 * @param string $links Source links, one per line.
+	 * @param string $notes Source notes.
+	 * @return string
+	 */
+	private function source_links( $links, $notes ) {
+		$items = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $links ) ) );
+		if ( ! $items && ! $notes ) {
+			return '';
+		}
+
+		$output = '<section class="lnet-detail-section lnet-source-section"><h2>' . esc_html__( 'Sources', 'limbenet-core' ) . '</h2>';
+
+		if ( $items ) {
+			$output .= '<ul>';
+			foreach ( $items as $item ) {
+				$parts = array_map( 'trim', explode( '|', $item, 2 ) );
+				$label = $parts[0];
+				$url   = isset( $parts[1] ) ? $parts[1] : $parts[0];
+				if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+					$output .= '<li><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $label ) . '</a></li>';
+				} else {
+					$output .= '<li>' . esc_html( $item ) . '</li>';
+				}
+			}
+			$output .= '</ul>';
+		}
+
+		if ( $notes ) {
+			$output .= '<p>' . esc_html( $notes ) . '</p>';
+		}
+
+		$output .= '</section>';
 
 		return $output;
 	}

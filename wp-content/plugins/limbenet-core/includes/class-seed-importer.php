@@ -38,7 +38,7 @@ class LimbeNet_Core_Seed_Importer {
 			<?php if ( $count ) : ?>
 				<div class="notice notice-success"><p><?php echo esc_html( sprintf( __( 'Seed import completed. %d items were created or updated.', 'limbenet-core' ), $count ) ); ?></p></div>
 			<?php endif; ?>
-			<p><?php esc_html_e( 'Import starter pages, taxonomies, attractions, destinations, itineraries, partners, deals, and events. Prices stay unverified and safety notices remain visible placeholders.', 'limbenet-core' ); ?></p>
+			<p><?php esc_html_e( 'Import starter pages, taxonomies, attractions, destinations, travel info pages, itineraries, partners, deals, and events. Prices stay unverified and safety notices remain visible placeholders.', 'limbenet-core' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'limbenet_import_seed', 'limbenet_seed_nonce' ); ?>
 				<input type="hidden" name="action" value="limbenet_import_seed">
@@ -76,6 +76,7 @@ class LimbeNet_Core_Seed_Importer {
 		$count += $this->import_pages();
 		$count += $this->import_destinations();
 		$count += $this->import_attractions();
+		$count += $this->import_travel_info();
 		$count += $this->import_itineraries();
 		$count += $this->import_partners();
 		$count += $this->import_deals();
@@ -287,6 +288,224 @@ class LimbeNet_Core_Seed_Importer {
 			);
 
 			if ( $post_id ) {
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Import editable travel info pages.
+	 *
+	 * @return int Count.
+	 */
+	private function import_travel_info() {
+		$items = array(
+			array(
+				'title'    => 'Visa & eVisa',
+				'subtitle' => 'Entry documents before you fly',
+				'image'    => 'travel-info-visa-evisa.webp',
+				'summary'  => 'Most visitors should confirm visa requirements before travel and use the official Cameroon eVisa portal for online applications when a visa is required.',
+				'points'   => array(
+					'Start with the official Cameroon eVisa portal and avoid unofficial social-media agents.',
+					'Apply early enough for processing, airline checks, and any embassy follow-up.',
+					'Carry your passport, approval record, accommodation or invitation details, and onward travel proof.',
+					'Check yellow fever documentation and airline boarding rules before departure.',
+				),
+				'details'  => 'Cameroon operates an online eVisa process through the official evisacam.cm portal. Requirements can vary by nationality and trip purpose, so travelers should confirm their category before booking non-refundable travel. Keep digital and printed copies of the application confirmation and approval documents with the passport used for the application. Airlines and border officials may ask for proof of accommodation, invitation details, return or onward travel, and health documentation.',
+				'safety'   => 'Entry rules can change quickly. Check the official eVisa portal, your airline, and your nearest Cameroon embassy or consulate before travel.',
+				'level'    => 'check-before-travel',
+				'sources'  => array(
+					'Official Cameroon eVisa portal | https://www.evisacam.cm/',
+					'UK FCDO Cameroon entry requirements | https://www.gov.uk/foreign-travel-advice/cameroon/entry-requirements',
+				),
+			),
+			array(
+				'title'    => 'Airports',
+				'subtitle' => 'International gateways and arrivals',
+				'image'    => 'travel-info-airports.webp',
+				'summary'  => 'Douala and Yaounde are Cameroon\'s main international gateways, with Douala usually the practical arrival point for Limbe, Buea, and the coast.',
+				'points'   => array(
+					'Douala International Airport is usually the closest major gateway for Limbe and Buea.',
+					'Yaounde Nsimalen International Airport is the main gateway for the capital and Centre Region.',
+					'Confirm flight schedules, baggage rules, and domestic connections directly with airlines.',
+					'Arrange trusted airport transfers in advance, especially for late arrivals.',
+				),
+				'details'  => 'Aeroports du Cameroun manages Cameroon airport information online, including airport pages and passenger information. For Limbe.Net travelers, Douala is the most common international arrival point for coastal trips, while Yaounde works well for capital-city, Centre Region, and onward domestic planning. Airport services, flight schedules, and domestic routes can change, so build extra time into transfers and avoid depending on tight same-day road connections after an international flight.',
+				'safety'   => 'Use known taxis, hotel shuttles, or verified drivers for arrivals. Confirm transfer prices before departure from the airport.',
+				'level'    => 'normal',
+				'sources'  => array(
+					'Aeroports du Cameroun | https://www.adcsa.aero/',
+					'U.S. State Department Cameroon country information | https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Cameroon.html',
+				),
+			),
+			array(
+				'title'    => 'Getting around',
+				'subtitle' => 'Roads, taxis, buses, and local transfers',
+				'image'    => 'travel-info-getting-around.webp',
+				'summary'  => 'Getting around Cameroon usually combines private transfers, city taxis, intercity buses, and local guidance, with road and security conditions checked before each route.',
+				'points'   => array(
+					'Use trusted drivers or established bus companies for intercity travel.',
+					'Agree taxi fares before starting a trip and keep small cash for local rides.',
+					'Avoid night road travel where possible and check current regional advisories.',
+					'Carry ID and expect occasional checkpoints on longer routes.',
+				),
+				'details'  => 'Transport options vary by city and region. In Douala, Yaounde, Limbe, Buea, and Kribi, visitors commonly use taxis, hotel transfers, private drivers, or intercity buses. Road quality, traffic, weather, and security conditions can affect journey times. Longer routes should be planned with current local advice, especially during rainy periods or when crossing regions with active travel warnings. For attraction visits, use the attraction page, hotel, or verified partner listing to confirm practical pickup points and return arrangements.',
+				'safety'   => 'Check current official travel advisories before road trips, avoid demonstrations, and use experienced local guidance for unfamiliar routes.',
+				'level'    => 'check-before-travel',
+				'sources'  => array(
+					'UK FCDO Cameroon safety and security | https://www.gov.uk/foreign-travel-advice/cameroon/safety-and-security',
+					'U.S. State Department Cameroon travel advisory | https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/cameroon-travel-advisory.html',
+				),
+			),
+			array(
+				'title'    => 'Money & payments',
+				'subtitle' => 'Cash, cards, ATMs, and mobile money',
+				'image'    => 'travel-info-money-payments.webp',
+				'summary'  => 'Cameroon uses the Central African CFA franc. Cards and ATMs are useful in cities, but cash remains important for transport, markets, smaller restaurants, and many attractions.',
+				'points'   => array(
+					'Carry Central African CFA franc cash in small denominations for daily spending.',
+					'Use ATMs in secure locations and keep backup payment options.',
+					'Cards are more useful in larger hotels, supermarkets, and some city businesses than in small towns.',
+					'Mobile money is common locally, but visitors may need a registered local SIM to use it fully.',
+				),
+				'details'  => 'Plan with a mix of cash and backup cards. Outside major hotels and some city businesses, cash is often the most reliable payment method. ATMs are easier to find in Douala, Yaounde, Limbe, Buea, Kribi, and other larger towns than in remote areas. Keep smaller notes for taxis, tips, snacks, markets, and entry fees. Mobile money is widely used by residents, but visitor access depends on local SIM registration, provider rules, and account setup.',
+				'safety'   => 'Do not display large amounts of cash. Use secure ATMs, split backup cards from daily cash, and confirm prices before accepting services.',
+				'level'    => 'normal',
+				'sources'  => array(
+					'U.S. State Department Cameroon country information | https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Cameroon.html',
+					'UK FCDO Cameroon safety and security | https://www.gov.uk/foreign-travel-advice/cameroon/safety-and-security',
+				),
+			),
+			array(
+				'title'    => 'SIM cards & internet',
+				'subtitle' => 'Mobile data for maps and messaging',
+				'image'    => 'travel-info-sim-cards-internet.webp',
+				'summary'  => 'An unlocked phone, passport, and local SIM can make Cameroon travel easier for maps, WhatsApp, hotel coordination, and mobile data.',
+				'points'   => array(
+					'Bring an unlocked phone that supports common African GSM/LTE bands.',
+					'Expect identity registration when buying or activating a local SIM.',
+					'Buy SIMs and data bundles from official shops or reputable agents.',
+					'Download offline maps before remote trips because coverage can drop outside cities.',
+				),
+				'details'  => 'Mobile data is useful for ride coordination, WhatsApp, Google Maps, translation, and contacting guides. Major providers operate in Cameroon, but coverage and speed vary by city, coast, mountain areas, and remote routes. Buy from official shops or trusted outlets, keep the SIM registration receipt where possible, and ask the seller to confirm data-bundle activation before leaving. For travel outside major cities, carry offline maps and important contact numbers.',
+				'safety'   => 'Use secure passwords and avoid sensitive financial activity on open public Wi-Fi. Keep a backup contact plan for remote areas.',
+				'level'    => 'normal',
+				'sources'  => array(
+					'U.S. State Department Cameroon country information | https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Cameroon.html',
+					'UK FCDO Cameroon safety and security | https://www.gov.uk/foreign-travel-advice/cameroon/safety-and-security',
+				),
+			),
+			array(
+				'title'    => 'Safety & travel advisories',
+				'subtitle' => 'Check official guidance before every trip',
+				'image'    => 'travel-info-safety-travel-advisories.webp',
+				'summary'  => 'Cameroon travel planning should always include current official advisories because conditions vary significantly by region.',
+				'points'   => array(
+					'Check official advisories on the day you plan and again before departure.',
+					'Some governments advise against travel to specific Cameroon regions because of conflict, crime, terrorism, or kidnapping risks.',
+					'Use experienced local guidance and verified transport for trips outside major city cores.',
+					'Avoid demonstrations, political gatherings, and night road travel where possible.',
+				),
+				'details'  => 'Safety conditions in Cameroon are not uniform. Major city travel, coastal leisure, highland routes, northern parks, and border areas can carry very different risk levels. Official advisories from the traveler\'s own government should guide route decisions. Limbe.Net pages display safety notices as planning prompts, not guarantees. Travelers should also monitor local news, hotel advice, guide advice, and embassy alerts during the trip.',
+				'safety'   => 'Official advisories currently identify elevated risks in several regions. Do not treat older blog posts, social media comments, or archived guides as current safety guidance.',
+				'level'    => 'high-risk',
+				'sources'  => array(
+					'U.S. State Department Cameroon travel advisory | https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/cameroon-travel-advisory.html',
+					'UK FCDO Cameroon travel advice | https://www.gov.uk/foreign-travel-advice/cameroon',
+				),
+			),
+			array(
+				'title'    => 'Health & packing',
+				'subtitle' => 'Vaccines, malaria prevention, and practical kit',
+				'image'    => 'travel-info-health-packing.webp',
+				'summary'  => 'Cameroon travelers should review vaccines, malaria prevention, yellow fever documentation, food and water precautions, and a practical tropical travel kit before departure.',
+				'points'   => array(
+					'Consult a travel health professional well before departure.',
+					'Check yellow fever certificate requirements and routine vaccine updates.',
+					'Ask about malaria prevention and bring insect repellent, long sleeves, and sleep precautions.',
+					'Pack prescription medicines, basic first aid, sun protection, rain protection, and travel insurance details.',
+				),
+				'details'  => 'CDC Travelers Health guidance for Cameroon includes destination-specific vaccine and malaria information. Travelers should review this with a clinician, especially for children, pregnant travelers, older travelers, and anyone with existing health conditions. Pack enough prescription medication for the full trip plus delays, and carry it in original packaging. For coastal and rainforest routes, prepare for heat, rain, insects, and muddy paths. Use bottled or treated water when needed and choose food vendors carefully.',
+				'safety'   => 'This is not medical advice. Use CDC guidance and a qualified travel health professional for personal recommendations.',
+				'level'    => 'check-before-travel',
+				'sources'  => array(
+					'CDC Travelers Health Cameroon | https://wwwnc.cdc.gov/travel/destinations/traveler/none/cameroon',
+					'UK FCDO Cameroon health | https://www.gov.uk/foreign-travel-advice/cameroon/health',
+				),
+			),
+			array(
+				'title'    => 'Best time to visit',
+				'subtitle' => 'Seasonal planning by region',
+				'image'    => 'travel-info-best-time-to-visit.webp',
+				'summary'  => 'The best time to visit Cameroon depends on region and activity, but drier months are usually easier for road trips, hiking, and beach planning.',
+				'points'   => array(
+					'For the coast and Mount Cameroon routes, check local rain and road conditions before travel.',
+					'Drier months are often easier for hiking, road transfers, and multi-city itineraries.',
+					'Rainy periods can be lush and beautiful but can affect roads, trails, and beach conditions.',
+					'Northern routes can be affected by heat, dust, and security advisories, so plan carefully.',
+				),
+				'details'  => 'Cameroon has coastal, highland, forest, savanna, and northern climate zones, so a single best month does not fit every itinerary. Limbe, Kribi, and the coast are humid and can receive heavy rain. Buea and Mount Cameroon can be cooler and cloudier, with mountain weather changing quickly. Yaounde and Douala are practical year-round city stops, but traffic, rain, and heat should shape daily plans. For multi-region trips, combine climate planning with current safety guidance.',
+				'safety'   => 'Weather can affect roads, trails, and sea conditions. Confirm local conditions before hikes, waterfalls, and long road trips.',
+				'level'    => 'normal',
+				'sources'  => array(
+					'World Bank Climate Change Knowledge Portal Cameroon | https://climateknowledgeportal.worldbank.org/country/cameroon/climate-data-historical',
+					'UK FCDO Cameroon travel advice | https://www.gov.uk/foreign-travel-advice/cameroon',
+				),
+			),
+			array(
+				'title'    => 'Responsible travel',
+				'subtitle' => 'Respect communities, wildlife, and heritage',
+				'image'    => 'travel-info-responsible-travel.webp',
+				'summary'  => 'Responsible Cameroon travel means using local services fairly, respecting cultural and historic sites, reducing waste, and protecting wildlife.',
+				'points'   => array(
+					'Ask permission before photographing people, ceremonies, homes, or sensitive heritage sites.',
+					'Use local guides and locally owned businesses where possible.',
+					'Do not feed, touch, or disturb wildlife; follow sanctuary and park rules.',
+					'Carry out plastic waste and respect memorial sites such as Bimbia with a quiet tone.',
+				),
+				'details'  => 'Cameroon travel is strongest when visitors support local communities and respect place-specific rules. Pay official entry or guide fees where required, agree prices clearly, tip fairly when service is good, and avoid bargaining in ways that undermine livelihoods. At cultural and historical places, follow guide instructions and keep photography respectful. At beaches, waterfalls, forests, and wildlife sites, stay on approved routes, avoid litter, and never pressure guides or staff to break conservation rules.',
+				'safety'   => 'Responsible travel also protects visitors: local rules, community advice, and conservation guidance often exist because conditions can change quickly.',
+				'level'    => 'normal',
+				'sources'  => array(
+					'UN Tourism Global Code of Ethics for Tourism | https://www.unwto.org/global-code-of-ethics-for-tourism',
+					'CDC Travelers Health Cameroon | https://wwwnc.cdc.gov/travel/destinations/traveler/none/cameroon',
+				),
+			),
+		);
+
+		$count = 0;
+		foreach ( $items as $index => $item ) {
+			$meta = array(
+				'travel_info_subtitle' => $item['subtitle'],
+				'summary'              => $item['summary'],
+				'featured_image'       => LIMBENET_CORE_URL . 'assets/images/' . $item['image'],
+				'key_points'           => implode( "\n", $item['points'] ),
+				'details'              => $item['details'],
+				'official_links'       => implode( "\n", $item['sources'] ),
+				'safety_notice'        => $item['safety'],
+				'advisory_level'       => $item['level'],
+				'last_verified_date'   => '2026-07-07',
+				'source_notes'         => 'Seeded with official and public travel guidance. Re-check source links before publishing major updates.',
+				'featured'             => 'yes',
+			);
+
+			$post_id = $this->ensure_post(
+				'travel_info',
+				$item['title'],
+				$item['summary'],
+				$meta,
+				array()
+			);
+
+			if ( $post_id ) {
+				wp_update_post(
+					array(
+						'ID'         => $post_id,
+						'menu_order' => $index,
+					)
+				);
 				$count++;
 			}
 		}

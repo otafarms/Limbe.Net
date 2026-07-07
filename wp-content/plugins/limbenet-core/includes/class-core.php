@@ -59,6 +59,7 @@ final class LimbeNet_Core {
 		add_action( 'admin_post_limbenet_import_seed', array( $seed_importer, 'handle_import' ) );
 		add_action( 'init', array( $forms, 'handle_submission' ) );
 		add_action( 'init', array( $shortcodes, 'register' ) );
+		add_action( 'init', array( $this, 'maybe_flush_rewrite_rules' ), 20 );
 		add_action( 'pre_get_posts', array( $shortcodes, 'filter_main_query' ) );
 		add_action( 'wp_head', array( $schema, 'print_schema' ), 30 );
 		add_action( 'wp_head', array( $schema, 'print_meta_description' ), 2 );
@@ -119,6 +120,18 @@ final class LimbeNet_Core {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', LIMBENET_CORE_FILE, true );
 		}
+	}
+
+	/**
+	 * Flush rewrite rules once after plugin updates that add routes.
+	 */
+	public function maybe_flush_rewrite_rules() {
+		if ( get_option( 'limbenet_core_rewrite_version' ) === LIMBENET_CORE_VERSION ) {
+			return;
+		}
+
+		flush_rewrite_rules( false );
+		update_option( 'limbenet_core_rewrite_version', LIMBENET_CORE_VERSION );
 	}
 
 	/**
