@@ -781,6 +781,39 @@ a.lnet-social-link:hover {
 	width: 100%;
 }
 
+.lnet-contact-map iframe[hidden] {
+	display: none;
+}
+
+.lnet-cookie-embed-placeholder {
+	align-content: center;
+	background:
+		linear-gradient(135deg, rgba(7, 59, 90, 0.88), rgba(18, 77, 77, 0.78)),
+		#073b5a;
+	color: #ffffff;
+	display: grid;
+	gap: 0.7rem;
+	min-height: 320px;
+	padding: 1.5rem;
+	place-items: center;
+	text-align: center;
+}
+
+.lnet-cookie-embed-placeholder[hidden] {
+	display: none;
+}
+
+.lnet-cookie-embed-placeholder h3,
+.lnet-cookie-embed-placeholder p {
+	margin: 0;
+	max-width: 520px;
+}
+
+.lnet-cookie-embed-placeholder .lnet-cookie-policy-button {
+	background: #a7f3b3;
+	color: #124d4d;
+}
+
 .lnet-legal-page {
 	color: #202124;
 	display: grid;
@@ -830,6 +863,300 @@ a.lnet-social-link:hover {
 
 .lnet-legal-grid p + p {
 	margin-top: 0.75rem;
+}
+
+.lnet-cookie-policy-button {
+	background: #073b5a;
+	border: 0;
+	border-radius: 6px;
+	color: #ffffff;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 800;
+	min-height: 2.75rem;
+	padding: 0.72rem 1rem;
+}
+
+.lnet-cookie-consent[hidden],
+.lnet-cookie-backdrop[hidden],
+.lnet-cookie-modal[hidden] {
+	display: none;
+}
+
+.lnet-cookie-backdrop {
+	background: rgba(0, 0, 0, 0.72);
+	inset: 0;
+	position: fixed;
+	z-index: 9997;
+}
+
+.lnet-cookie-banner {
+	align-items: center;
+	background: #124d4d;
+	box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.22);
+	color: #ffffff;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: minmax(0, 1fr) auto;
+	inset: auto 1.5rem 1.25rem;
+	padding: 1rem 1.15rem;
+	position: fixed;
+	z-index: 9998;
+}
+
+.lnet-cookie-banner p {
+	font-size: 0.95rem;
+	font-weight: 700;
+	line-height: 1.55;
+	margin: 0;
+}
+
+.lnet-cookie-banner a,
+.lnet-cookie-modal a {
+	color: #a7f3b3;
+	font-weight: 800;
+	text-decoration: underline;
+	text-underline-offset: 0.16em;
+}
+
+.lnet-cookie-banner-actions,
+.lnet-cookie-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.lnet-cookie-button,
+.lnet-cookie-link-button,
+.lnet-cookie-dismiss,
+.lnet-cookie-close {
+	cursor: pointer;
+	font: inherit;
+}
+
+.lnet-cookie-button {
+	align-items: center;
+	border: 1px solid transparent;
+	border-radius: 3px;
+	display: inline-flex;
+	font-weight: 800;
+	justify-content: center;
+	min-height: 2.55rem;
+	padding: 0.55rem 1.25rem;
+	white-space: nowrap;
+}
+
+.lnet-cookie-button.is-accent,
+.lnet-cookie-button.is-outline {
+	background: #a7f3b3;
+	border-color: #a7f3b3;
+	color: #124d4d;
+}
+
+.lnet-cookie-button.is-outline {
+	background: #ffffff;
+	border-color: #4e9d4f;
+	color: #4e9d4f;
+}
+
+.lnet-cookie-button.is-muted {
+	background: #ffffff;
+	border-color: rgba(32, 33, 36, 0.28);
+	color: #202124;
+}
+
+.lnet-cookie-button.is-primary {
+	background: #000000;
+	border-color: #000000;
+	color: #ffffff;
+}
+
+.lnet-cookie-link-button,
+.lnet-cookie-dismiss,
+.lnet-cookie-close {
+	background: transparent;
+	border: 0;
+	color: inherit;
+	font-weight: 800;
+}
+
+.lnet-cookie-link-button {
+	color: #a7f3b3;
+	padding: 0.55rem 0;
+	text-decoration: none;
+}
+
+.lnet-cookie-dismiss {
+	font-size: 1.7rem;
+	line-height: 1;
+	min-height: 2.55rem;
+	min-width: 2rem;
+	padding: 0;
+}
+
+.lnet-cookie-modal {
+	align-items: center;
+	display: grid;
+	inset: 0;
+	justify-items: center;
+	padding: 1.5rem;
+	position: fixed;
+	z-index: 9999;
+}
+
+.lnet-cookie-dialog {
+	background: #ffffff;
+	border-radius: 6px;
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+	color: #202124;
+	display: grid;
+	max-height: min(88vh, 760px);
+	max-width: 800px;
+	overflow: auto;
+	position: relative;
+	width: min(100%, 800px);
+}
+
+.lnet-cookie-close {
+	color: #111111;
+	font-size: 2rem;
+	line-height: 1;
+	padding: 0.85rem 1.15rem;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.lnet-cookie-modal-intro {
+	display: grid;
+	gap: 1rem;
+	justify-items: center;
+	padding: 3.4rem 2rem 1.8rem;
+	text-align: center;
+}
+
+.lnet-cookie-modal-intro h2 {
+	color: #000000;
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	line-height: 1.05;
+	margin: 0;
+}
+
+.lnet-cookie-modal-intro p {
+	color: rgba(32, 33, 36, 0.72);
+	font-size: 1.05rem;
+	line-height: 1.55;
+	margin: 0;
+	max-width: 640px;
+}
+
+.lnet-cookie-modal-intro a {
+	color: #202124;
+}
+
+.lnet-cookie-categories {
+	background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 12%);
+	border-block: 1px solid rgba(32, 33, 36, 0.12);
+	display: grid;
+	gap: 0;
+	min-height: 320px;
+	padding: 1.5rem 2rem;
+}
+
+.lnet-cookie-category {
+	align-items: center;
+	border-bottom: 1px solid rgba(32, 33, 36, 0.14);
+	color: #202124;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+	padding: 1.05rem 0;
+}
+
+.lnet-cookie-category:last-child {
+	border-bottom: 0;
+}
+
+.lnet-cookie-category-icon {
+	align-items: center;
+	border-radius: 999px;
+	color: rgba(32, 33, 36, 0.72);
+	display: inline-flex;
+	font-size: 1.1rem;
+	font-weight: 900;
+	height: 2.5rem;
+	justify-content: center;
+	width: 2.5rem;
+}
+
+.lnet-cookie-category strong {
+	display: block;
+	font-size: 0.92rem;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.lnet-cookie-category small {
+	color: rgba(32, 33, 36, 0.72);
+	display: block;
+	font-size: 0.93rem;
+	line-height: 1.45;
+	margin-top: 0.25rem;
+}
+
+.lnet-cookie-switch {
+	display: inline-flex;
+	height: 1.7rem;
+	position: relative;
+	width: 3.25rem;
+}
+
+.lnet-cookie-switch input {
+	height: 1px;
+	opacity: 0;
+	position: absolute;
+	width: 1px;
+}
+
+.lnet-cookie-switch span {
+	background: #8f8f8f;
+	border-radius: 999px;
+	inset: 0;
+	position: absolute;
+	transition: background-color 160ms ease;
+}
+
+.lnet-cookie-switch span::after {
+	background: #ffffff;
+	border-radius: 999px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+	content: "";
+	height: 1.25rem;
+	left: 0.25rem;
+	position: absolute;
+	top: 0.22rem;
+	transition: transform 160ms ease;
+	width: 1.25rem;
+}
+
+.lnet-cookie-switch input:checked + span {
+	background: #4e9d4f;
+}
+
+.lnet-cookie-switch input:checked + span::after {
+	transform: translateX(1.5rem);
+}
+
+.lnet-cookie-switch input:focus-visible + span {
+	outline: 3px solid rgba(7, 59, 90, 0.25);
+	outline-offset: 3px;
+}
+
+.lnet-cookie-actions {
+	background: #ffffff;
+	justify-content: space-between;
+	padding: 1rem;
 }
 
 .lnet-ticket-grid,
@@ -1021,6 +1348,42 @@ a.lnet-social-link:hover {
 	.lnet-gallery,
 	.lnet-contact-map {
 		padding: 1rem;
+	}
+
+	.lnet-cookie-banner {
+		grid-template-columns: 1fr;
+		inset: auto 0 0;
+	}
+
+	.lnet-cookie-banner-actions,
+	.lnet-cookie-actions {
+		align-items: stretch;
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.lnet-cookie-dismiss {
+		position: absolute;
+		right: 0.9rem;
+		top: 0.6rem;
+	}
+
+	.lnet-cookie-modal {
+		padding: 0.8rem;
+	}
+
+	.lnet-cookie-modal-intro,
+	.lnet-cookie-categories {
+		padding-inline: 1rem;
+	}
+
+	.lnet-cookie-category {
+		grid-template-columns: 2.25rem minmax(0, 1fr);
+	}
+
+	.lnet-cookie-switch {
+		grid-column: 2;
+		justify-self: start;
 	}
 }
 

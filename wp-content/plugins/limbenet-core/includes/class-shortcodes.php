@@ -244,7 +244,14 @@ class LimbeNet_Core_Shortcodes {
 		$output .= '</aside></div>';
 
 		if ( $map_url ) {
-			$output .= '<div class="lnet-contact-map"><iframe src="' . esc_url( $map_url ) . '" title="' . esc_attr__( 'Limbe.Net map location', 'limbenet-core' ) . '" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>';
+			$output .= '<div class="lnet-contact-map" data-lnet-cookie-embed="marketing">';
+			$output .= '<div class="lnet-cookie-embed-placeholder" data-lnet-cookie-placeholder>';
+			$output .= '<h3>' . esc_html__( 'Map preview', 'limbenet-core' ) . '</h3>';
+			$output .= '<p>' . esc_html__( 'Accept marketing and embedded media cookies to load the interactive map.', 'limbenet-core' ) . '</p>';
+			$output .= '<button class="lnet-cookie-policy-button" type="button" data-lnet-cookie-open>' . esc_html__( 'Manage cookie preferences', 'limbenet-core' ) . '</button>';
+			$output .= '</div>';
+			$output .= '<iframe data-src="' . esc_url( $map_url ) . '" title="' . esc_attr__( 'Limbe.Net map location', 'limbenet-core' ) . '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" hidden></iframe>';
+			$output .= '</div>';
 		}
 
 		$output .= '</section>';

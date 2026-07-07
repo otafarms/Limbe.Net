@@ -128,6 +128,7 @@ class LimbeNet_Core_Seed_Importer {
 			array( 'Contact Us', 'contact-us', '[limbenet_contact_page]' ),
 			array( 'Terms & Conditions', 'terms-and-conditions', $this->terms_page_content(), false ),
 			array( 'Privacy Policy', 'privacy-policy', $this->privacy_page_content(), false ),
+			array( 'Cookie Policy', 'cookie-policy', $this->cookie_page_content(), false ),
 			array( 'Things to Do', 'things-to-do', '[limbenet_travel_styles]' ),
 			array( 'Tickets & Tours', 'tickets-tours', '[limbenet_ticket_help expanded="true"][limbenet_booking_form]' ),
 			array( 'Travel Info', 'travel-info', '[limbenet_travel_info]' ),
@@ -420,6 +421,90 @@ class LimbeNet_Core_Seed_Importer {
 		<section>
 			<h3>15. Contact</h3>
 			<p>Questions or privacy requests can be sent through the <a href="' . esc_url( $contact_url ) . '">Contact Us</a> page.</p>
+		</section>
+	</div>
+</section>';
+	}
+
+	/**
+	 * Get seeded Cookie Policy page content.
+	 *
+	 * @return string
+	 */
+	private function cookie_page_content() {
+		$contact_url = home_url( '/contact-us/' );
+		$updated     = gmdate( 'F j, Y' );
+
+		return '<section class="lnet-legal-page">
+	<div class="lnet-legal-notice">
+		<p><strong>Last updated: ' . esc_html( $updated ) . '</strong></p>
+		<p>This Cookie Policy is a starter template for Limbe.Net and should be reviewed by a qualified legal professional before public launch. It explains how Limbe.Net may use cookies, local storage, pixels, embedded content, and similar technologies, and how visitors can manage cookie choices.</p>
+	</div>
+
+	<div class="lnet-legal-grid">
+		<section>
+			<h3>1. What cookies are</h3>
+			<p>Cookies are small text files that a website places on a browser or device. Similar technologies may include local storage, session storage, pixels, tags, software development kits, and embedded third-party tools.</p>
+			<p>These technologies can help a website remember choices, keep forms and security features working, understand how visitors use pages, and support optional features such as maps, video, social media, analytics, advertising, or partner tools.</p>
+		</section>
+
+		<section>
+			<h3>2. How Limbe.Net uses cookies</h3>
+			<p>Limbe.Net may use cookies and similar technologies to operate the site, secure forms, remember cookie preferences, support language and display choices, measure traffic, improve travel content, understand search and filter behavior, and support optional embedded services.</p>
+			<p>We aim to use only cookies that are appropriate for the site feature involved. Non-essential cookies should be used only after you have given consent through the cookie preference widget or another clear consent control.</p>
+		</section>
+
+		<section>
+			<h3>3. Strictly necessary cookies</h3>
+			<p>Strictly necessary cookies are required for core site functions. These may include cookies needed for security, page navigation, form submissions, logged-in WordPress sessions, spam prevention, and storing your cookie consent choice.</p>
+			<p>Because these cookies are necessary for the website to work, they cannot be switched off through the Limbe.Net cookie widget. You may still block them in your browser, but some parts of the site may not work correctly.</p>
+		</section>
+
+		<section>
+			<h3>4. Analytics and performance cookies</h3>
+			<p>Analytics and performance cookies help us understand visits, page performance, popular content, search terms, and how visitors move through Limbe.Net. This helps us improve destination pages, attraction pages, travel information, and partner discovery.</p>
+			<p>These cookies are optional. If enabled, analytics providers may process technical information such as device type, browser type, approximate location, pages viewed, referring pages, dates, times, and interactions.</p>
+		</section>
+
+		<section>
+			<h3>5. Preferences and functionality cookies</h3>
+			<p>Preference and functionality cookies help remember choices such as language, display settings, saved form state, or optional interface preferences. They can make repeat visits easier and more consistent.</p>
+			<p>These cookies are optional unless they are required for a specific service you request.</p>
+		</section>
+
+		<section>
+			<h3>6. Marketing, social, and embedded media cookies</h3>
+			<p>Marketing and embedded media cookies may be used by advertising partners, social platforms, video services, map providers, booking partners, or other embedded third-party features. These services may collect information under their own cookie and privacy notices.</p>
+			<p>Examples may include embedded maps, videos, social sharing tools, retargeting pixels, sponsored listing tools, affiliate links, or partner booking features. These cookies are optional and should not be loaded before consent where consent is required.</p>
+		</section>
+
+		<section>
+			<h3>7. Third-party cookies</h3>
+			<p>Some services used on Limbe.Net may be provided by third parties. Third-party providers control their own cookies, retention periods, and privacy practices. Review their privacy and cookie notices before interacting with embedded tools or leaving Limbe.Net.</p>
+			<p>Limbe.Net may update third-party tools over time as site features change. The cookie preference widget is intended to help manage optional categories at a high level.</p>
+		</section>
+
+		<section>
+			<h3>8. How to manage your choices</h3>
+			<p>When the cookie widget appears, you can allow all cookies, decline optional cookies, or accept selected categories. Your choice is stored in your browser so the site can remember it on future visits.</p>
+			<p>You can also delete or block cookies through your browser settings. Browser controls usually allow you to clear existing cookies, block third-party cookies, or set site-specific permissions. If you clear cookies or use a different browser or device, you may need to set your Limbe.Net choices again.</p>
+			<p><button class="lnet-cookie-policy-button" type="button" data-lnet-cookie-open>Open cookie preferences</button></p>
+		</section>
+
+		<section>
+			<h3>9. Retention</h3>
+			<p>Cookie retention periods vary by purpose and provider. Session cookies usually expire when you close your browser. Persistent cookies may remain until they expire, you delete them, or the relevant provider removes them.</p>
+			<p>The Limbe.Net cookie consent choice may be stored for up to 180 days unless you clear it earlier.</p>
+		</section>
+
+		<section>
+			<h3>10. Changes to this policy</h3>
+			<p>We may update this Cookie Policy when site features, third-party tools, legal requirements, or operational practices change. Updated versions will be posted on this page with a revised last-updated date.</p>
+		</section>
+
+		<section>
+			<h3>11. Contact</h3>
+			<p>Questions about this Cookie Policy or cookie choices can be sent through the <a href="' . esc_url( $contact_url ) . '">Contact Us</a> page.</p>
 		</section>
 	</div>
 </section>';
