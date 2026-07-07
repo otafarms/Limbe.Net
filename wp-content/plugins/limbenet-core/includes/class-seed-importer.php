@@ -38,7 +38,7 @@ class LimbeNet_Core_Seed_Importer {
 			<?php if ( $count ) : ?>
 				<div class="notice notice-success"><p><?php echo esc_html( sprintf( __( 'Seed import completed. %d items were created or updated.', 'limbenet-core' ), $count ) ); ?></p></div>
 			<?php endif; ?>
-			<p><?php esc_html_e( 'Import starter pages, legal pages, taxonomies, attractions, destinations, travel info pages, itineraries, partners, deals, and events. Prices stay unverified and safety notices remain visible placeholders.', 'limbenet-core' ); ?></p>
+			<p><?php esc_html_e( 'Import starter pages, taxonomies, attractions, destinations, travel info pages, itineraries, partners, deals, and events. Prices stay unverified and safety notices remain visible placeholders.', 'limbenet-core' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'limbenet_import_seed', 'limbenet_seed_nonce' ); ?>
 				<input type="hidden" name="action" value="limbenet_import_seed">
@@ -151,135 +151,7 @@ class LimbeNet_Core_Seed_Importer {
 			}
 		}
 
-		foreach ( $this->legal_pages() as $page ) {
-			$page_id = $this->ensure_page( $page['title'], $page['slug'], $page['content'] );
-			if ( $page_id ) {
-				$count++;
-			}
-
-			if ( 'privacy-policy' === $page['slug'] ) {
-				update_option( 'wp_page_for_privacy_policy', $page_id );
-			}
-		}
-
 		return $count;
-	}
-
-	/**
-	 * Get editable legal and trust pages.
-	 *
-	 * @return array
-	 */
-	private function legal_pages() {
-		$contact_email = sanitize_email( get_option( 'admin_email' ) );
-		$site_name     = wp_strip_all_tags( get_bloginfo( 'name' ) ?: 'Limbe.Net' );
-		$updated       = 'July 7, 2026';
-
-		return array(
-			array(
-				'title'   => 'About Us',
-				'slug'    => 'about-us',
-				'content' => '<p><strong>Last updated:</strong> ' . $updated . '</p>
-<h2>Who we are</h2>
-<p>' . esc_html( $site_name ) . ' is an independent Cameroon tourism guide created to help travelers discover Limbe, Mount Cameroon, beaches, wildlife, culture, food, events, and practical travel information in one place.</p>
-<h2>Our mission</h2>
-<p>Our mission is to make Cameroon travel planning easier, more transparent, and more responsible by connecting visitors with useful destination guidance, safety notices, partner listings, trip ideas, and official links where available.</p>
-<h2>Independent travel guide</h2>
-<p>Limbe.Net is not an official government portal, embassy, immigration authority, airline, hotel, attraction, or transport company. We provide travel information and partner discovery tools, but travelers should verify entry rules, safety conditions, prices, opening hours, and booking terms with the relevant official source or service provider before making decisions.</p>
-<h2>How we work</h2>
-<p>We aim to publish clear, practical, and regularly reviewed travel content. When possible, we link to official or primary sources for visas, airports, health, safety, tickets, and destination information. Some listings, deals, or booking leads may be provided by third-party partners, and those partners remain responsible for their own services, pricing, availability, and customer commitments.</p>
-<h2>Responsible tourism</h2>
-<p>We encourage travelers to respect local communities, heritage sites, wildlife, beaches, protected areas, and cultural practices. Visitors should ask before photographing people, use local guides where appropriate, reduce waste, and follow site-specific rules.</p>
-<h2>Contact</h2>
-<p>For corrections, partnership requests, listing claims, or privacy questions, contact us at ' . esc_html( $contact_email ) . '.</p>',
-			),
-			array(
-				'title'   => 'Terms and Conditions',
-				'slug'    => 'terms-and-conditions',
-				'content' => '<p><strong>Last updated:</strong> ' . $updated . '</p>
-<h2>Acceptance of these terms</h2>
-<p>By using ' . esc_html( $site_name ) . ', you agree to these Terms and Conditions. If you do not agree, please do not use the website.</p>
-<h2>Independent information service</h2>
-<p>Limbe.Net is an independent tourism guide. We are not an official government portal, embassy, immigration authority, airline, accommodation provider, attraction operator, tour operator, insurance provider, medical provider, or legal adviser.</p>
-<h2>Travel information and safety</h2>
-<p>Travel information on this website is provided for general planning only. Conditions can change quickly, including entry requirements, health rules, weather, road access, prices, event dates, attraction opening times, and security conditions. You are responsible for checking official advisories, local guidance, provider terms, and current conditions before travel or booking.</p>
-<h2>Bookings, leads, and third-party services</h2>
-<p>Limbe.Net may help users discover partners, request booking help, claim listings, or contact third-party providers. Unless clearly stated otherwise, third-party providers are independent businesses and are responsible for their own services, prices, availability, cancellations, refunds, safety practices, licenses, and customer support.</p>
-<h2>Listings, deals, and prices</h2>
-<p>Partner listings, deals, prices, ticket notes, and availability may change without notice. We may label some information as unverified until a reliable source confirms it. You should confirm final terms directly with the provider before paying or traveling.</p>
-<h2>User submissions</h2>
-<p>If you submit a listing, booking request, review, correction, message, or other content, you confirm that the information is accurate to the best of your knowledge and that you have the right to submit it. We may edit, reject, remove, or moderate submissions to protect users, partners, and the quality of the site.</p>
-<h2>Intellectual property</h2>
-<p>The website design, text, branding, data structure, and original content are owned by Limbe.Net or used with permission unless otherwise stated. You may not copy, republish, scrape, or commercially reuse substantial parts of the website without written permission.</p>
-<h2>Acceptable use</h2>
-<p>You must not misuse the website, attempt unauthorized access, submit malicious code, impersonate another person or business, interfere with site operations, or use the site for unlawful, misleading, or harmful activity.</p>
-<h2>Third-party links</h2>
-<p>The website may link to official sources, partner websites, maps, booking platforms, social media, payment providers, or other third-party services. We are not responsible for external websites or their content, security, policies, or availability.</p>
-<h2>Limitation of liability</h2>
-<p>To the fullest extent permitted by law, Limbe.Net is not liable for losses arising from reliance on general travel information, third-party services, travel disruption, denied entry, safety incidents, booking disputes, site downtime, or external links.</p>
-<h2>Changes to these terms</h2>
-<p>We may update these terms from time to time. The updated version will be posted on this page with a new last updated date.</p>
-<h2>Contact</h2>
-<p>Questions about these terms can be sent to ' . esc_html( $contact_email ) . '.</p>',
-			),
-			array(
-				'title'   => 'Privacy Policy',
-				'slug'    => 'privacy-policy',
-				'content' => '<p><strong>Last updated:</strong> ' . $updated . '</p>
-<h2>Overview</h2>
-<p>This Privacy Policy explains how ' . esc_html( $site_name ) . ' collects, uses, shares, and protects personal information when you use our website, forms, partner tools, and related services.</p>
-<h2>Who controls your information</h2>
-<p>Limbe.Net is responsible for the personal information collected through this website. You can contact us at ' . esc_html( $contact_email ) . '.</p>
-<h2>Information we collect</h2>
-<p>We may collect information you provide directly, such as your name, email address, phone or WhatsApp number, business name, city, listing details, booking request details, claim information, advertising inquiries, messages, and consent choices.</p>
-<p>We may also collect limited technical information such as IP address, browser type, device information, pages visited, referring pages, approximate location, cookie choices, and security logs. Optional analytics or marketing cookies are used only where enabled and consented to.</p>
-<h2>How we use information</h2>
-<p>We use personal information to respond to inquiries, process booking-help requests, review partner listings, manage listing claims, improve website content, maintain security, measure site performance, comply with legal obligations, and communicate with users or partners.</p>
-<h2>Legal bases</h2>
-<p>Where data protection law requires a legal basis, we rely on one or more of the following: your consent, performance of a requested service, legitimate interests such as site security and service improvement, and legal obligations.</p>
-<h2>Cookies and similar technologies</h2>
-<p>We use essential cookies or local storage for site functionality, security, form handling, and consent records. Analytics and marketing cookies are optional and can be accepted, rejected, or changed using the cookie settings button. See our Cookie Policy for more detail.</p>
-<h2>Sharing information</h2>
-<p>We may share information with service providers that help operate the website, email, hosting, security, analytics, spam prevention, or form processing. If you request booking help, claim a listing, or contact a partner, we may share relevant details with the appropriate partner or provider so they can respond.</p>
-<h2>International transfers</h2>
-<p>Our website and service providers may process information in countries different from where you live. Where required, we use appropriate safeguards and ask service providers to protect personal information.</p>
-<h2>Retention</h2>
-<p>We keep personal information only as long as needed for the purposes described in this policy, including responding to requests, maintaining records, resolving disputes, preventing abuse, and meeting legal or accounting requirements.</p>
-<h2>Your rights</h2>
-<p>Depending on where you live, you may have rights to access, correct, delete, restrict, object to, or receive a copy of your personal information. You may also withdraw consent where processing is based on consent. To exercise rights, contact ' . esc_html( $contact_email ) . '.</p>
-<h2>Security</h2>
-<p>We use reasonable technical and organizational measures to protect personal information. No website or internet transmission is completely secure, so users should avoid sending sensitive information that is not needed for a request.</p>
-<h2>Children</h2>
-<p>This website is intended for travel planning by adults and businesses. We do not knowingly collect personal information from children.</p>
-<h2>Complaints</h2>
-<p>If you have privacy concerns, please contact us first. You may also have the right to complain to a relevant data protection authority depending on your location.</p>
-<h2>Changes to this policy</h2>
-<p>We may update this Privacy Policy from time to time. The updated version will be posted on this page with a new last updated date.</p>',
-			),
-			array(
-				'title'   => 'Cookie Policy',
-				'slug'    => 'cookie-policy',
-				'content' => '<p><strong>Last updated:</strong> ' . $updated . '</p>
-<h2>What cookies are</h2>
-<p>Cookies are small files stored on your device by a website. Similar technologies, such as local storage, can also remember preferences or help websites work properly.</p>
-<h2>How Limbe.Net uses cookies</h2>
-<p>Limbe.Net uses essential cookies or local storage to operate the website, protect forms, remember cookie choices, and support basic features. With your permission, we may also use analytics or marketing cookies to understand site performance, improve travel content, and measure campaigns or partner offers.</p>
-<h2>Cookie categories</h2>
-<p><strong>Essential cookies:</strong> Required for security, forms, consent records, and core site functionality. These cannot be switched off through the cookie banner.</p>
-<p><strong>Analytics cookies:</strong> Optional cookies that help us understand how visitors use the site, which pages are useful, and where improvements are needed.</p>
-<p><strong>Marketing cookies:</strong> Optional cookies that may support partner offers, campaign measurement, or advertising-related features.</p>
-<h2>Managing choices</h2>
-<p>When you first visit the site, the cookie banner lets you accept all cookies, reject optional cookies, or manage analytics and marketing choices separately. After saving a choice, you can reopen preferences using the Cookie settings button.</p>
-<h2>Browser controls</h2>
-<p>You can also block or delete cookies through your browser settings. Blocking essential cookies may affect website functionality, forms, or saved preferences.</p>
-<h2>Third-party services</h2>
-<p>Some embedded maps, videos, analytics tools, social links, booking providers, or partner websites may use their own cookies or tracking technologies. Third-party services are governed by their own privacy and cookie policies.</p>
-<h2>Changes to this policy</h2>
-<p>We may update this Cookie Policy when our cookie categories, tools, or consent wording changes. The updated version will be posted on this page.</p>
-<h2>Contact</h2>
-<p>Questions about cookies can be sent to ' . esc_html( $contact_email ) . '.</p>',
-			),
-		);
 	}
 
 	/**

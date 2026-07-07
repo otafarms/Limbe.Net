@@ -674,101 +674,6 @@ a.lnet-social-link:hover {
 	padding: 1rem;
 }
 
-.lnet-cookie-widget {
-	background: rgba(7, 59, 90, 0.18);
-	bottom: 0;
-	display: grid;
-	left: 0;
-	padding: 1rem;
-	position: fixed;
-	right: 0;
-	z-index: 9999;
-}
-
-.lnet-cookie-widget[hidden],
-.lnet-cookie-settings-button[hidden] {
-	display: none;
-}
-
-.lnet-cookie-panel {
-	background: #ffffff;
-	border: 1px solid rgba(7, 59, 90, 0.16);
-	border-radius: 8px;
-	box-shadow: 0 18px 50px rgba(7, 59, 90, 0.18);
-	display: grid;
-	gap: 1rem;
-	grid-template-columns: minmax(0, 1fr) auto;
-	margin: 0 auto;
-	max-width: 1120px;
-	padding: 1rem;
-	width: min(100%, 1120px);
-}
-
-.lnet-cookie-copy h2 {
-	color: #073b5a;
-	font-size: 1.15rem;
-	margin: 0 0 0.35rem;
-}
-
-.lnet-cookie-copy p {
-	margin: 0;
-}
-
-.lnet-cookie-links {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.75rem;
-	margin-top: 0.65rem !important;
-}
-
-.lnet-cookie-links a {
-	color: #0d7ea2;
-	font-weight: 800;
-}
-
-.lnet-cookie-preferences {
-	background: #f8f4ea;
-	border-radius: 8px;
-	display: grid;
-	gap: 0.7rem;
-	grid-column: 1 / -1;
-	padding: 0.9rem;
-}
-
-.lnet-cookie-preferences[hidden] {
-	display: none;
-}
-
-.lnet-cookie-preferences label {
-	align-items: start;
-	display: grid;
-	gap: 0.6rem;
-	grid-template-columns: auto 1fr;
-}
-
-.lnet-cookie-actions {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.55rem;
-	justify-content: flex-end;
-}
-
-.lnet-cookie-settings-button {
-	background: #ffffff;
-	border: 1px solid rgba(7, 59, 90, 0.2);
-	border-radius: 999px;
-	bottom: 1rem;
-	box-shadow: 0 10px 24px rgba(7, 59, 90, 0.14);
-	color: #073b5a;
-	cursor: pointer;
-	font-weight: 800;
-	padding: 0.55rem 0.85rem;
-	position: fixed;
-	right: 1rem;
-	z-index: 9998;
-}
-
 @media (max-width: 980px) {
 	.lnet-search-primary {
 		grid-template-columns: minmax(0, 1fr) minmax(180px, 214px);
@@ -795,13 +700,8 @@ a.lnet-social-link:hover {
 
 	.lnet-detail-layout,
 	.lnet-newsletter,
-	.lnet-partner-cta,
-	.lnet-cookie-panel {
+	.lnet-partner-cta {
 		grid-template-columns: 1fr;
-	}
-
-	.lnet-cookie-actions {
-		justify-content: flex-start;
 	}
 
 	.lnet-quick-facts {
@@ -833,7 +733,6 @@ a.lnet-social-link:hover {
 	.lnet-ticket-help,
 	.lnet-newsletter,
 	.lnet-partner-cta,
-	.lnet-cookie-panel,
 	.lnet-form-wrap,
 	.lnet-social-section,
 	.lnet-quick-facts,
