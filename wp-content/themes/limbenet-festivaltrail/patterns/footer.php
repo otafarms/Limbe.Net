@@ -48,6 +48,17 @@
 					<a href="<?php echo esc_url( home_url( '/claim-listing/' ) ); ?>"><?php echo esc_html__( 'Claim This Listing', 'limbenet-festivaltrail' ); ?></a>
 				</div>
 			</div>
+
+			<div>
+				<div class="lnet-footer-title"><?php echo esc_html__( 'Company Information', 'limbenet-festivaltrail' ); ?></div>
+				<div class="lnet-footer-links">
+					<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php echo esc_html__( 'About Us', 'limbenet-festivaltrail' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>"><?php echo esc_html__( 'Contact Us', 'limbenet-festivaltrail' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>"><?php echo esc_html__( 'Terms & Conditions', 'limbenet-festivaltrail' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html__( 'Privacy Policy', 'limbenet-festivaltrail' ); ?></a>
+					<a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>"><?php echo esc_html__( 'Cookie Policy', 'limbenet-festivaltrail' ); ?></a>
+				</div>
+			</div>
 		</div>
 
 		<div class="lnet-footer-note">

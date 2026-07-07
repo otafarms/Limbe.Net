@@ -349,7 +349,7 @@ img {
 .lnet-footer-grid {
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 1.1fr repeat(3, minmax(0, 0.7fr));
+	grid-template-columns: 1.1fr repeat(4, minmax(0, 0.7fr));
 }
 
 .lnet-site-footer a {

@@ -124,6 +124,7 @@ class LimbeNet_Core_Seed_Importer {
 		$count = 0;
 		$pages = array(
 			array( 'Home', 'home', '' ),
+			array( 'About Us', 'about-us', $this->about_page_content() ),
 			array( 'Things to Do', 'things-to-do', '[limbenet_travel_styles]' ),
 			array( 'Tickets & Tours', 'tickets-tours', '[limbenet_ticket_help expanded="true"][limbenet_booking_form]' ),
 			array( 'Travel Info', 'travel-info', '[limbenet_travel_info]' ),
@@ -152,6 +153,53 @@ class LimbeNet_Core_Seed_Importer {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * Get seeded About Us page content.
+	 *
+	 * @return string
+	 */
+	private function about_page_content() {
+		$hero_image        = LIMBENET_CORE_URL . 'assets/images/limbenet-hero.png';
+		$limbe_image       = LIMBENET_CORE_URL . 'assets/images/limbe-city-featured.webp';
+		$destination_image = LIMBENET_CORE_URL . 'assets/images/home-featured-destinations.webp';
+		$attraction_image  = LIMBENET_CORE_URL . 'assets/images/home-popular-attractions.webp';
+
+		return '<section class="lnet-about-page">
+	<div class="lnet-about-layout">
+		<div class="lnet-about-gallery" aria-label="Limbe.Net Cameroon tourism visuals">
+			<img class="is-wide" src="' . esc_url( $hero_image ) . '" alt="Cameroon coast and mountain travel inspiration" loading="lazy">
+			<img src="' . esc_url( $limbe_image ) . '" alt="Limbe city and coastline" loading="lazy">
+			<img src="' . esc_url( $attraction_image ) . '" alt="Cameroon attractions and culture" loading="lazy">
+			<img class="is-wide" src="' . esc_url( $destination_image ) . '" alt="Featured Cameroon destinations" loading="lazy">
+		</div>
+
+		<div class="lnet-about-copy">
+			<p class="lnet-kicker">Independent Cameroon tourism guide</p>
+			<h2>Who are we?</h2>
+			<p>Limbe.Net is an independent digital tourism guide created to help travelers discover Limbe and the wider Cameroon travel experience with practical, locally grounded information.</p>
+			<p>We bring destinations, attractions, travel tips, partner listings, booking-help requests, and responsible safety notices into one simple planning hub. Our goal is to make it easier for visitors and residents to explore Cameroon with confidence, curiosity, and respect for local communities.</p>
+			<p>Limbe.Net is not an official government portal. We are a tourism discovery platform that encourages travelers to verify visas, safety advisories, health guidance, prices, routes, and availability with official sources and service providers before booking.</p>
+			<a class="lnet-button" href="' . esc_url( home_url( '/places-to-go/' ) ) . '">Explore Cameroon</a>
+		</div>
+	</div>
+
+	<div class="lnet-about-pillars">
+		<div>
+			<h3>What we do</h3>
+			<p>We organize Cameroon travel information into useful pages for destinations, attractions, travel ideas, ticket planning, deals, and partner discovery.</p>
+		</div>
+		<div>
+			<h3>How we help travelers</h3>
+			<p>We highlight practical details, official links where available, and clear safety reminders so visitors can plan with better context.</p>
+		</div>
+		<div>
+			<h3>How we support partners</h3>
+			<p>We give hotels, restaurants, guides, transport providers, attractions, photographers, and event organizers a path to request listings and visibility.</p>
+		</div>
+	</div>
+</section>';
 	}
 
 	/**
