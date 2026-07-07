@@ -207,11 +207,6 @@ class LimbeNet_Core_Shortcodes {
 		$map_url  = ! empty( $settings['contact_map_url'] ) ? esc_url( $settings['contact_map_url'] ) : '';
 
 		$output  = '<section class="lnet-contact-page">';
-		$output .= '<div class="lnet-contact-intro">';
-		$output .= '<div><p class="lnet-kicker">' . esc_html__( 'Contact Us', 'limbenet-core' ) . '</p><h2>' . esc_html__( 'Get in touch with Limbe.Net', 'limbenet-core' ) . '</h2></div>';
-		$output .= '<p>' . esc_html__( 'Questions about Limbe, Cameroon travel planning, partner listings, booking help, or destination updates? Send a message and the Limbe.Net team will follow up.', 'limbenet-core' ) . '</p>';
-		$output .= '</div>';
-
 		$output .= '<div class="lnet-contact-layout">';
 		$output .= LimbeNet_Core_Forms::render_form( 'contact' );
 		$output .= '<aside class="lnet-contact-side" aria-label="' . esc_attr__( 'Contact information', 'limbenet-core' ) . '">';
