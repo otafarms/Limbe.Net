@@ -91,7 +91,7 @@ if (-not $PluginOnly) {
 	foreach ($theme in $themes) {
 		$themeDir = Join-Path $repoRoot "wp-content/themes/$theme"
 		$themeZip = Join-Path $distDir "$theme.zip"
-		New-FolderZip -SourceDir $themeDir -DestinationZip $themeZip
+		New-FlatZip -SourceDir $themeDir -DestinationZip $themeZip
 	}
 }
 

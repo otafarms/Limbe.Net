@@ -125,6 +125,6 @@ Upload either ZIP from `Appearance > Themes > Add New > Upload Theme`.
 
 ## Building Upload Packages
 
-Run `scripts/build-packages.ps1` from PowerShell to rebuild the upload-ready ZIP files in `dist/`.
+Run `scripts/build-packages.ps1` from PowerShell to rebuild the upload-ready ZIP files in `dist/`. Upload the ZIP files with their original filenames so WordPress uses the expected folder slugs.
 
-The plugin package is intentionally built as a flat ZIP with `limbenet-core.php` at the archive root and forward-slash archive paths. This prevents WordPress from nesting the plugin as `limbenet-core-1/limbenet-core/limbenet-core.php` when a browser or host renames an uploaded ZIP.
+The plugin and theme packages are intentionally built as flat ZIPs with forward-slash archive paths. For themes, `style.css` is at the archive root so WordPress can pass its theme package check before installing the ZIP into a folder based on the filename.
