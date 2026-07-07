@@ -93,6 +93,8 @@ if (-not $PluginOnly) {
 		$themeZip = Join-Path $distDir "$theme.zip"
 		New-FlatZip -SourceDir $themeDir -DestinationZip $themeZip
 	}
+
+	Copy-Item -LiteralPath (Join-Path $distDir 'limbenet-coastwave.zip') -Destination (Join-Path $distDir 'limbenet-coastwave-fresh.zip') -Force
 }
 
 Write-Output "Built $pluginZip"
