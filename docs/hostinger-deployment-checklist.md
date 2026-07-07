@@ -4,8 +4,8 @@
 2. Install WordPress through Hostinger hPanel.
 3. Enable SSL before public launch.
 4. Create a staging site first.
-5. Upload the `limbenet` theme folder as a ZIP through `Appearance > Themes > Add New`, or upload it by SFTP to `/wp-content/themes/limbenet/`.
-6. Upload the `limbenet-core` plugin folder as a ZIP through `Plugins > Add New`, or upload it by SFTP to `/wp-content/plugins/limbenet-core/`.
+5. Upload `dist/limbenet.zip` through `Appearance > Themes > Add New`, or upload `wp-content/themes/limbenet/` by SFTP to `/wp-content/themes/limbenet/`.
+6. Upload `dist/limbenet-core.zip` through `Plugins > Add New`, or upload `wp-content/plugins/limbenet-core/` by SFTP to `/wp-content/plugins/limbenet-core/`.
 7. Activate the `Limbe.Net` theme.
 8. Activate the `Limbe.Net Core` plugin.
 9. Install Polylang or WPML.

@@ -17,8 +17,8 @@ Limbe.Net is positioned as an independent Cameroon tourism guide, not an officia
 
 ## Installation
 
-1. Upload `wp-content/themes/limbenet/` to `/wp-content/themes/limbenet/`.
-2. Upload `wp-content/plugins/limbenet-core/` to `/wp-content/plugins/limbenet-core/`.
+1. Upload `dist/limbenet.zip` from `Appearance > Themes > Add New > Upload Theme`, or upload `wp-content/themes/limbenet/` by SFTP to `/wp-content/themes/limbenet/`.
+2. Upload `dist/limbenet-core.zip` from `Plugins > Add New > Upload Plugin`, or upload `wp-content/plugins/limbenet-core/` by SFTP to `/wp-content/plugins/limbenet-core/`.
 3. In WordPress admin, activate the `Limbe.Net` theme.
 4. Activate the `Limbe.Net Core` plugin.
 5. Go to `Settings > Permalinks` and choose `Post name`.
@@ -122,3 +122,9 @@ Two additional standalone theme ZIPs are available in `dist/`:
 - `limbenet-festivaltrail.zip`: colorful culture/highland visual direction.
 
 Upload either ZIP from `Appearance > Themes > Add New > Upload Theme`.
+
+## Building Upload Packages
+
+Run `scripts/build-packages.ps1` from PowerShell to rebuild the upload-ready ZIP files in `dist/`.
+
+The plugin package is intentionally built as a flat ZIP with `limbenet-core.php` at the archive root. This prevents WordPress from nesting the plugin as `limbenet-core-1/limbenet-core/limbenet-core.php` when a browser or host renames an uploaded ZIP.
