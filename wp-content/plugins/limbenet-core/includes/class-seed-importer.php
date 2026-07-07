@@ -126,6 +126,7 @@ class LimbeNet_Core_Seed_Importer {
 			array( 'Home', 'home', '' ),
 			array( 'About Us', 'about-us', $this->about_page_content() ),
 			array( 'Contact Us', 'contact-us', '[limbenet_contact_page]' ),
+			array( 'Terms & Conditions', 'terms-and-conditions', $this->terms_page_content(), false ),
 			array( 'Things to Do', 'things-to-do', '[limbenet_travel_styles]' ),
 			array( 'Tickets & Tours', 'tickets-tours', '[limbenet_ticket_help expanded="true"][limbenet_booking_form]' ),
 			array( 'Travel Info', 'travel-info', '[limbenet_travel_info]' ),
@@ -138,7 +139,7 @@ class LimbeNet_Core_Seed_Importer {
 		);
 
 		foreach ( $pages as $page ) {
-			$page_id = $this->ensure_page( $page[0], $page[1], $page[2] );
+			$page_id = $this->ensure_page( $page[0], $page[1], $page[2], isset( $page[3] ) ? (bool) $page[3] : true );
 			if ( $page_id ) {
 				$count++;
 			}
@@ -199,6 +200,124 @@ class LimbeNet_Core_Seed_Importer {
 			<h3>How we support partners</h3>
 			<p>We give hotels, restaurants, guides, transport providers, attractions, photographers, and event organizers a path to request listings and visibility.</p>
 		</div>
+	</div>
+</section>';
+	}
+
+	/**
+	 * Get seeded Terms & Conditions page content.
+	 *
+	 * @return string
+	 */
+	private function terms_page_content() {
+		$contact_url = home_url( '/contact-us/' );
+		$updated     = gmdate( 'F j, Y' );
+
+		return '<section class="lnet-legal-page">
+	<p class="lnet-kicker">Website terms</p>
+	<h2>Terms & Conditions</h2>
+	<p class="lnet-legal-updated">Last updated: ' . esc_html( $updated ) . '</p>
+	<div class="lnet-legal-notice">
+		<p>These Terms & Conditions are a starter template for Limbe.Net and should be reviewed by a qualified legal professional before public launch. By accessing or using Limbe.Net, you agree to these terms.</p>
+	</div>
+
+	<div class="lnet-legal-grid">
+		<section>
+			<h3>1. About Limbe.Net</h3>
+			<p>Limbe.Net is an independent Cameroon tourism guide that publishes destination information, attractions, travel guidance, partner listings, deals, events, booking-help forms, and related content. Limbe.Net is not an official government portal, embassy, airline, hotel, tour operator, or public authority.</p>
+			<p>Information on the site is provided for general travel planning and discovery. Travelers are responsible for verifying visas, health requirements, safety advisories, prices, availability, routes, dates, and provider credentials before making travel decisions.</p>
+		</section>
+
+		<section>
+			<h3>2. Acceptance of these terms</h3>
+			<p>By visiting, browsing, submitting a form, requesting booking help, claiming a listing, advertising, or otherwise using Limbe.Net, you agree to follow these Terms & Conditions and any policies linked from this site.</p>
+			<p>If you do not agree with these terms, please do not use the site.</p>
+		</section>
+
+		<section>
+			<h3>3. Changes to these terms</h3>
+			<p>Limbe.Net may update these Terms & Conditions from time to time. Updated terms will be posted on this page with a revised last-updated date. Continued use of the site after changes are posted means you accept the updated terms.</p>
+		</section>
+
+		<section>
+			<h3>4. Intellectual property</h3>
+			<p>Unless otherwise stated, site design, text, page layouts, logos, graphics, photography, code, guides, directories, and other content on Limbe.Net are owned by Limbe.Net or used with permission. This content is protected by applicable copyright, trademark, and intellectual property laws.</p>
+			<p>You may view, share, and link to Limbe.Net pages for personal, non-commercial travel planning. You may not copy, scrape, republish, sell, modify, reproduce, or create derivative works from site content without prior written permission, except where allowed by law.</p>
+		</section>
+
+		<section>
+			<h3>5. Permitted use</h3>
+			<p>You agree not to misuse Limbe.Net, interfere with site security, attempt unauthorized access, submit malicious code, overload the site, impersonate another person or organization, or use the site for unlawful, misleading, abusive, or fraudulent activity.</p>
+		</section>
+
+		<section>
+			<h3>6. User submissions and partner listings</h3>
+			<p>If you submit messages, listing requests, claims, reviews, photos, corrections, advertisements, or other materials, you confirm that the information is accurate, lawful, and that you have the right to submit it.</p>
+			<p>You grant Limbe.Net permission to review, edit, format, publish, translate, remove, or decline submitted material for site operations, moderation, safety, quality control, marketing, and directory management. Limbe.Net may reject or remove listings that are incomplete, misleading, unsafe, unlawful, outdated, or inconsistent with our editorial standards.</p>
+		</section>
+
+		<section>
+			<h3>7. Accounts, access, and termination</h3>
+			<p>If Limbe.Net later offers user accounts, partner dashboards, paid placements, or contributor access, you are responsible for keeping login details secure and for activity under your account.</p>
+			<p>Limbe.Net may suspend, restrict, terminate, remove, or refuse access to accounts, listings, submissions, booking requests, advertising placements, or site features if we believe a user has violated these terms, supplied inaccurate information, harmed other users, created security risk, or acted unlawfully.</p>
+		</section>
+
+		<section>
+			<h3>8. Third-party providers and links</h3>
+			<p>Limbe.Net may link to hotels, restaurants, guides, transport providers, attractions, booking platforms, government websites, payment services, social media platforms, and other third-party websites. Third-party services are controlled by their own operators and may have separate terms, privacy policies, refund rules, cancellation rules, and safety practices.</p>
+			<p>Limbe.Net is not responsible for third-party websites, pricing, availability, service quality, cancellations, accidents, delays, losses, or disputes between travelers and providers.</p>
+		</section>
+
+		<section>
+			<h3>9. Booking help, prices, and availability</h3>
+			<p>Booking-help forms and partner contact features are inquiry tools only. Submitting a request does not create a confirmed reservation, ticket, package, contract, or payment obligation unless a separate written agreement is made with Limbe.Net or a third-party provider.</p>
+			<p>Prices, schedules, ticket requirements, travel times, opening hours, and availability may change without notice. Items marked as unverified or needing verification should not be treated as confirmed information.</p>
+		</section>
+
+		<section>
+			<h3>10. Payments, refunds, cancellations, and shipping</h3>
+			<p>Limbe.Net currently functions primarily as an information, directory, advertising, and lead-request platform. Unless clearly stated at checkout or in a written agreement, Limbe.Net does not directly sell travel services, hotel stays, transport, tickets, or physical goods.</p>
+			<p>If Limbe.Net later sells advertising, sponsored placements, digital services, partner packages, or other paid services, payment, cancellation, and refund terms will be stated at the point of purchase or in the applicable written agreement. Digital and advertising services may be non-refundable once work begins, unless otherwise required by law or agreed in writing.</p>
+			<p>Limbe.Net does not currently ship physical products. If physical products are offered in the future, shipping timelines, delivery options, returns, and refund rules will be provided before purchase.</p>
+			<p>Payments made to third-party providers are governed by that provider&apos;s own refund, cancellation, and shipping policies.</p>
+		</section>
+
+		<section>
+			<h3>11. Affiliate links, advertising, and sponsored content</h3>
+			<p>Some links, listings, deals, articles, or placements may be sponsored, paid, affiliate, or partner content. Limbe.Net may earn compensation when users click links, submit inquiries, book through partners, or purchase from third parties. Sponsored or affiliate relationships do not guarantee quality, safety, availability, or suitability.</p>
+		</section>
+
+		<section>
+			<h3>12. Travel safety and health disclaimer</h3>
+			<p>Travel involves risk. Conditions can change quickly because of weather, road conditions, health issues, civil unrest, local regulations, wildlife, ocean conditions, mountain conditions, or provider operations. Limbe.Net does not guarantee that any destination, attraction, route, event, provider, or activity is safe or suitable for every traveler.</p>
+			<p>Before travel, check current official advisories, entry requirements, health guidance, insurance coverage, and local instructions. Use qualified local guides where appropriate.</p>
+		</section>
+
+		<section>
+			<h3>13. No professional advice</h3>
+			<p>Content on Limbe.Net is provided for general information only. It is not legal, medical, immigration, financial, insurance, safety, or professional advice. You should consult qualified professionals or official sources for decisions that require expert guidance.</p>
+		</section>
+
+		<section>
+			<h3>14. Disclaimers and limitation of liability</h3>
+			<p>Limbe.Net is provided on an as-is and as-available basis. We do not promise that the site will be uninterrupted, error-free, secure, fully accurate, complete, or current.</p>
+			<p>To the maximum extent permitted by law, Limbe.Net and its owners, contributors, partners, contractors, and affiliates are not liable for indirect, incidental, consequential, special, punitive, or economic damages arising from use of the site, reliance on site content, third-party services, travel decisions, or unavailable site features.</p>
+		</section>
+
+		<section>
+			<h3>15. Indemnity</h3>
+			<p>You agree to defend, indemnify, and hold Limbe.Net harmless from claims, losses, liabilities, damages, costs, and expenses arising from your use of the site, your submissions, your violation of these terms, or your violation of another person&apos;s rights.</p>
+		</section>
+
+		<section>
+			<h3>16. Governing law and disputes</h3>
+			<p>These Terms & Conditions should be adapted to the final registered business location and governing law for Limbe.Net. Unless mandatory consumer protection rules say otherwise, disputes should first be addressed by contacting Limbe.Net in good faith before formal proceedings are started.</p>
+		</section>
+
+		<section>
+			<h3>17. Contact</h3>
+			<p>Questions about these Terms & Conditions can be sent through the <a href="' . esc_url( $contact_url ) . '">Contact Us</a> page.</p>
+		</section>
 	</div>
 </section>';
 	}
@@ -766,18 +885,21 @@ class LimbeNet_Core_Seed_Importer {
 	 * @param string $title Page title.
 	 * @param string $slug Page slug.
 	 * @param string $content Page content.
+	 * @param bool   $overwrite Whether to overwrite existing page content.
 	 * @return int Post ID.
 	 */
-	private function ensure_page( $title, $slug, $content ) {
+	private function ensure_page( $title, $slug, $content, $overwrite = true ) {
 		$page = get_page_by_path( $slug, OBJECT, 'page' );
 		if ( $page ) {
-			wp_update_post(
-				array(
-					'ID'           => $page->ID,
-					'post_title'   => $title,
-					'post_content' => $content,
-				)
-			);
+			if ( $overwrite ) {
+				wp_update_post(
+					array(
+						'ID'           => $page->ID,
+						'post_title'   => $title,
+						'post_content' => $content,
+					)
+				);
+			}
 			return (int) $page->ID;
 		}
 
