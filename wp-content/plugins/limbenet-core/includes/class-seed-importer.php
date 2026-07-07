@@ -211,12 +211,8 @@ class LimbeNet_Core_Seed_Importer {
 	 */
 	private function terms_page_content() {
 		$contact_url = home_url( '/contact-us/' );
-		$updated     = gmdate( 'F j, Y' );
 
 		return '<section class="lnet-legal-page">
-	<p class="lnet-kicker">Website terms</p>
-	<h2>Terms & Conditions</h2>
-	<p class="lnet-legal-updated">Last updated: ' . esc_html( $updated ) . '</p>
 	<div class="lnet-legal-notice">
 		<p>These Terms & Conditions are a starter template for Limbe.Net and should be reviewed by a qualified legal professional before public launch. By accessing or using Limbe.Net, you agree to these terms.</p>
 	</div>
