@@ -91,45 +91,154 @@ class LimbeNet_Core_Shortcodes {
 			'limbenet_language_switcher'
 		);
 
-		if ( function_exists( 'pll_the_languages' ) ) {
-			ob_start();
-			pll_the_languages(
-				array(
-					'dropdown'               => 0,
-					'show_names'             => 0,
-					'display_names_as'       => 'slug',
-					'hide_if_empty'          => 0,
-					'raw'                    => 0,
-					'echo'                   => 1,
-					'force_home'             => 0,
-					'hide_current'           => 0,
-					'post_id'                => null,
-					'aria_label'             => __( 'Select language', 'limbenet-core' ),
-				)
-			);
-			$output = ob_get_clean();
-			return '<nav class="lnet-language-switcher is-polylang" aria-label="' . esc_attr__( 'Language selector', 'limbenet-core' ) . '">' . $output . '</nav>';
+		$languages = $this->get_language_options();
+		if ( empty( $languages ) ) {
+			return '';
 		}
 
-		$languages = array(
-			'en' => __( 'EN', 'limbenet-core' ),
-			'fr' => __( 'FR', 'limbenet-core' ),
-			'es' => __( 'ES', 'limbenet-core' ),
-		);
-
-		$current = substr( get_locale(), 0, 2 );
-		$output  = '<nav class="lnet-language-switcher is-fallback" aria-label="' . esc_attr__( 'Language selector', 'limbenet-core' ) . '">';
-		foreach ( $languages as $code => $label ) {
-			$url = apply_filters( 'wpml_permalink', home_url( '/' . $code . '/' ), $code );
-			if ( $code === $current ) {
-				$output .= '<span class="is-active">' . esc_html( $label ) . '</span>';
-			} else {
-				$output .= '<a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
+		$current = null;
+		foreach ( $languages as $language ) {
+			if ( ! empty( $language['current'] ) ) {
+				$current = $language;
+				break;
 			}
 		}
-		$output .= '</nav>';
+
+		if ( ! $current ) {
+			$current            = reset( $languages );
+			$current['current'] = true;
+		}
+
+		$context_class = sanitize_html_class( 'is-' . $atts['context'] );
+		$output        = '<nav class="lnet-language-switcher is-dropdown ' . esc_attr( $context_class ) . '" aria-label="' . esc_attr__( 'Language selector', 'limbenet-core' ) . '">';
+		$output       .= '<details class="lnet-language-menu" data-lnet-language-switcher>';
+		$output       .= '<summary class="lnet-language-current" aria-label="' . esc_attr__( 'Select language', 'limbenet-core' ) . '">';
+		$output       .= $this->render_language_flag( $current );
+		$output       .= '<span class="lnet-language-current-label">' . esc_html( strtoupper( $current['code'] ) ) . '</span>';
+		$output       .= '<span class="lnet-language-arrow" aria-hidden="true"></span>';
+		$output       .= '</summary>';
+		$output       .= '<div class="lnet-language-options" role="menu">';
+
+		foreach ( $languages as $language ) {
+			$is_active = ! empty( $language['current'] ) || $language['code'] === $current['code'];
+			$item      = $is_active ? 'span' : 'a';
+			$class     = 'lnet-language-option' . ( $is_active ? ' is-active' : '' );
+			$attrs     = ' class="' . esc_attr( $class ) . '" role="menuitem"';
+
+			if ( $is_active ) {
+				$attrs .= ' aria-current="true"';
+			} else {
+				$attrs .= ' href="' . esc_url( $language['url'] ) . '"';
+			}
+
+			$output .= '<' . $item . $attrs . '>';
+			$output .= $this->render_language_flag( $language );
+			$output .= '<span class="lnet-language-name">' . esc_html( $language['label'] ) . '</span>';
+			$output .= '<span class="lnet-language-check" aria-hidden="true"></span>';
+			$output .= '</' . $item . '>';
+		}
+
+		$output .= '</div></details></nav>';
 
 		return $output;
+	}
+
+	/**
+	 * Get language switcher options from Polylang or fallback languages.
+	 *
+	 * @return array
+	 */
+	private function get_language_options() {
+		if ( function_exists( 'pll_the_languages' ) ) {
+			$items = pll_the_languages(
+				array(
+					'dropdown'      => 0,
+					'show_names'    => 1,
+					'hide_if_empty' => 0,
+					'raw'           => 1,
+					'echo'          => 0,
+					'force_home'    => 0,
+					'hide_current'  => 0,
+					'post_id'       => null,
+				)
+			);
+
+			if ( is_array( $items ) && ! empty( $items ) ) {
+				$languages = array();
+				foreach ( $items as $item ) {
+					$code = isset( $item['slug'] ) ? sanitize_key( $item['slug'] ) : '';
+					if ( ! $code ) {
+						continue;
+					}
+
+					$languages[] = array(
+						'code'    => $code,
+						'label'   => ! empty( $item['name'] ) ? wp_strip_all_tags( $item['name'] ) : strtoupper( $code ),
+						'url'     => ! empty( $item['url'] ) ? $item['url'] : home_url( '/' . $code . '/' ),
+						'flag'    => ! empty( $item['flag'] ) ? $item['flag'] : '',
+						'current' => ! empty( $item['current_lang'] ),
+					);
+				}
+
+				if ( ! empty( $languages ) ) {
+					return $languages;
+				}
+			}
+		}
+
+		$current = substr( get_locale(), 0, 2 );
+		$items   = array(
+			'en' => __( 'English', 'limbenet-core' ),
+			'es' => __( 'Espanol', 'limbenet-core' ),
+			'fr' => __( 'Francais', 'limbenet-core' ),
+			'it' => __( 'Italiano', 'limbenet-core' ),
+		);
+
+		$languages = array();
+		foreach ( $items as $code => $label ) {
+			$languages[] = array(
+				'code'    => $code,
+				'label'   => $label,
+				'url'     => apply_filters( 'wpml_permalink', home_url( '/' . $code . '/' ), $code ),
+				'flag'    => '',
+				'current' => $code === $current,
+			);
+		}
+
+		return $languages;
+	}
+
+	/**
+	 * Render a flag for a language option.
+	 *
+	 * @param array $language Language option.
+	 * @return string
+	 */
+	private function render_language_flag( $language ) {
+		$code = ! empty( $language['code'] ) ? sanitize_html_class( $language['code'] ) : 'en';
+
+		if ( ! empty( $language['flag'] ) ) {
+			if ( filter_var( $language['flag'], FILTER_VALIDATE_URL ) ) {
+				return '<span class="lnet-lang-flag is-image is-' . esc_attr( $code ) . '" aria-hidden="true"><img src="' . esc_url( $language['flag'] ) . '" alt="" loading="lazy" decoding="async"></span>';
+			}
+
+			$allowed = array(
+				'img' => array(
+					'alt'      => true,
+					'class'    => true,
+					'height'   => true,
+					'loading'  => true,
+					'src'      => true,
+					'srcset'   => true,
+					'width'    => true,
+					'decoding' => true,
+				),
+			);
+
+			return '<span class="lnet-lang-flag is-image is-' . esc_attr( $code ) . '" aria-hidden="true">' . wp_kses( $language['flag'], $allowed ) . '</span>';
+		}
+
+		return '<span class="lnet-lang-flag is-' . esc_attr( $code ) . '" aria-hidden="true"></span>';
 	}
 
 	/**

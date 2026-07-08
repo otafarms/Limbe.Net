@@ -152,28 +152,163 @@ img {
 
 .lnet-language-switcher {
 	align-items: center;
+	--lnet-language-accent: var(--lnet-ocean);
 	display: inline-flex;
-	flex-wrap: wrap;
-	gap: 0.35rem;
+	position: relative;
+	z-index: 40;
 }
 
-.lnet-language-switcher a,
-.lnet-language-switcher span {
+.lnet-language-menu {
+	position: relative;
+}
+
+.lnet-language-current {
+	align-items: center;
+	background: var(--lnet-white);
 	border: 1px solid var(--lnet-border);
 	border-radius: 999px;
+	box-shadow: 0 10px 26px rgba(7, 34, 52, 0.14);
 	color: var(--lnet-charcoal);
-	font-size: 0.78rem;
-	font-weight: 800;
-	padding: 0.22rem 0.55rem;
-	text-decoration: none;
+	cursor: pointer;
+	display: inline-flex;
+	gap: 0.45rem;
+	list-style: none;
+	min-height: 2.4rem;
+	padding: 0.38rem 0.7rem;
 }
 
-.lnet-language-switcher .is-active,
-.lnet-language-switcher a:focus-visible,
-.lnet-language-switcher a:hover {
-	background: var(--lnet-ocean);
-	border-color: var(--lnet-ocean);
-	color: var(--lnet-white);
+.lnet-language-current::-webkit-details-marker {
+	display: none;
+}
+
+.lnet-language-current-label {
+	font-size: 0.72rem;
+	font-weight: 900;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.lnet-language-arrow {
+	border: solid currentColor;
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	height: 0.38rem;
+	margin-top: -0.16rem;
+	transform: rotate(45deg);
+	transition: transform 160ms ease, margin-top 160ms ease;
+	width: 0.38rem;
+}
+
+.lnet-language-menu[open] .lnet-language-arrow {
+	margin-top: 0.18rem;
+	transform: rotate(-135deg);
+}
+
+.lnet-language-options {
+	background: var(--lnet-white);
+	border: 1px solid var(--lnet-border);
+	border-radius: 8px;
+	box-shadow: 0 16px 40px rgba(7, 34, 52, 0.18);
+	display: grid;
+	gap: 0.15rem;
+	min-width: 11.5rem;
+	padding: 0.55rem;
+	position: absolute;
+	right: 0;
+	top: calc(100% + 0.55rem);
+	z-index: 80;
+}
+
+.lnet-language-switcher.is-footer .lnet-language-options,
+.lnet-language-switcher.is-mobile .lnet-language-options {
+	left: 0;
+	right: auto;
+}
+
+.lnet-language-switcher.is-footer .lnet-language-options {
+	bottom: calc(100% + 0.55rem);
+	top: auto;
+}
+
+.lnet-language-option {
+	align-items: center;
+	border-radius: 6px;
+	color: var(--lnet-charcoal);
+	display: grid;
+	font-size: 0.88rem;
+	font-weight: 800;
+	gap: 0.7rem;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	min-height: 2.45rem;
+	padding: 0.45rem 0.6rem;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.lnet-language-current:focus-visible,
+.lnet-language-current:hover,
+.lnet-language-option:focus-visible,
+.lnet-language-option:hover {
+	background: rgba(0, 126, 167, 0.12);
+	outline: 2px solid transparent;
+}
+
+.lnet-language-option.is-active {
+	background: rgba(0, 126, 167, 0.08);
+	color: var(--lnet-charcoal);
+}
+
+.lnet-lang-flag {
+	background: #d8eef7;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px rgba(7, 34, 52, 0.16);
+	display: inline-block;
+	flex: 0 0 auto;
+	height: 0.9rem;
+	overflow: hidden;
+	position: relative;
+	width: 1.35rem;
+}
+
+.lnet-lang-flag img {
+	display: block;
+	height: 100%;
+	object-fit: cover;
+	width: 100%;
+}
+
+.lnet-lang-flag.is-en {
+	background:
+		linear-gradient(90deg, transparent 42%, #ffffff 42%, #ffffff 58%, transparent 58%),
+		linear-gradient(0deg, transparent 36%, #ffffff 36%, #ffffff 64%, transparent 64%),
+		linear-gradient(90deg, transparent 47%, #c8102e 47%, #c8102e 53%, transparent 53%),
+		linear-gradient(0deg, transparent 44%, #c8102e 44%, #c8102e 56%, transparent 56%),
+		#012169;
+}
+
+.lnet-lang-flag.is-fr {
+	background: linear-gradient(90deg, #0055a4 0 33.33%, #ffffff 33.33% 66.66%, #ef4135 66.66%);
+}
+
+.lnet-lang-flag.is-es {
+	background: linear-gradient(180deg, #aa151b 0 25%, #f1bf00 25% 75%, #aa151b 75%);
+}
+
+.lnet-lang-flag.is-it {
+	background: linear-gradient(90deg, #008c45 0 33.33%, #ffffff 33.33% 66.66%, #cd212a 66.66%);
+}
+
+.lnet-language-check {
+	border-bottom: 3px solid #4d8a6a;
+	border-left: 3px solid #4d8a6a;
+	height: 0.38rem;
+	opacity: 0;
+	transform: rotate(-45deg);
+	width: 0.72rem;
+}
+
+.lnet-language-option.is-active .lnet-language-check {
+	opacity: 1;
 }
 
 .lnet-hero {
@@ -584,11 +719,16 @@ body {
 	background: linear-gradient(135deg, #006b8f, #00a878);
 }
 
-.lnet-language-switcher .is-active,
-.lnet-language-switcher a:focus-visible,
-.lnet-language-switcher a:hover {
-	background: #ff7a1a;
-	border-color: #ff7a1a;
+.lnet-language-switcher {
+	--lnet-language-accent: #ff7a1a;
+}
+
+.lnet-language-current:focus-visible,
+.lnet-language-current:hover,
+.lnet-language-option:focus-visible,
+.lnet-language-option:hover,
+.lnet-language-option.is-active {
+	background: rgba(255, 122, 26, 0.14);
 	color: #10212b;
 }
 

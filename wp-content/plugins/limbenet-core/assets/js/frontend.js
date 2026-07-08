@@ -266,6 +266,42 @@
 		setVisible(banner, true);
 	}
 
+	function initLanguageSwitchers() {
+		var switchers = document.querySelectorAll('[data-lnet-language-switcher]');
+
+		switchers.forEach(function (switcher) {
+			switcher.addEventListener('toggle', function () {
+				if (!switcher.open) {
+					return;
+				}
+
+				switchers.forEach(function (other) {
+					if (other !== switcher) {
+						other.open = false;
+					}
+				});
+			});
+		});
+
+		document.addEventListener('click', function (event) {
+			switchers.forEach(function (switcher) {
+				if (!switcher.contains(event.target)) {
+					switcher.open = false;
+				}
+			});
+		});
+
+		document.addEventListener('keydown', function (event) {
+			if ('Escape' !== event.key) {
+				return;
+			}
+
+			switchers.forEach(function (switcher) {
+				switcher.open = false;
+			});
+		});
+	}
+
 	document.addEventListener('DOMContentLoaded', function () {
 		var forms = document.querySelectorAll('.lnet-search-form');
 
@@ -288,5 +324,6 @@
 		});
 
 		initCookieConsent();
+		initLanguageSwitchers();
 	});
 }());
