@@ -149,6 +149,8 @@ class LimbeNet_Core_Shortcodes {
 	 * @return array
 	 */
 	private function get_language_options() {
+		$url_language = $this->get_current_language_from_url();
+
 		if ( function_exists( 'pll_the_languages' ) ) {
 			$items = pll_the_languages(
 				array(
@@ -176,7 +178,7 @@ class LimbeNet_Core_Shortcodes {
 						'label'   => ! empty( $item['name'] ) ? wp_strip_all_tags( $item['name'] ) : strtoupper( $code ),
 						'url'     => ! empty( $item['url'] ) ? $item['url'] : home_url( '/' . $code . '/' ),
 						'flag'    => ! empty( $item['flag'] ) ? $item['flag'] : '',
-						'current' => ! empty( $item['current_lang'] ),
+						'current' => $url_language ? $code === $url_language : ! empty( $item['current_lang'] ),
 					);
 				}
 
@@ -186,7 +188,7 @@ class LimbeNet_Core_Shortcodes {
 			}
 		}
 
-		$current = substr( get_locale(), 0, 2 );
+		$current = $url_language ? $url_language : substr( get_locale(), 0, 2 );
 		$items   = array(
 			'en' => __( 'English', 'limbenet-core' ),
 			'es' => __( 'Espanol', 'limbenet-core' ),
@@ -206,6 +208,26 @@ class LimbeNet_Core_Shortcodes {
 		}
 
 		return $languages;
+	}
+
+	/**
+	 * Infer the active language from the current URL prefix.
+	 *
+	 * @return string
+	 */
+	private function get_current_language_from_url() {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$path        = wp_parse_url( $request_uri, PHP_URL_PATH );
+
+		if ( ! is_string( $path ) ) {
+			return '';
+		}
+
+		$path     = trim( $path, '/' );
+		$segments = $path ? explode( '/', $path ) : array();
+		$language = isset( $segments[0] ) ? sanitize_key( $segments[0] ) : '';
+
+		return in_array( $language, array( 'en', 'es', 'fr', 'it' ), true ) ? $language : '';
 	}
 
 	/**
