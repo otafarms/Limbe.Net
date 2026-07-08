@@ -47,6 +47,7 @@ final class LimbeNet_Core {
 		$shortcodes    = new LimbeNet_Core_Shortcodes();
 		$schema        = new LimbeNet_Core_Schema();
 		$seed_importer = new LimbeNet_Core_Seed_Importer();
+		$polylang      = new LimbeNet_Core_Polylang_Integration();
 
 		add_action( 'init', array( $post_types, 'register' ) );
 		add_action( 'init', array( $taxonomies, 'register' ) );
@@ -57,6 +58,11 @@ final class LimbeNet_Core {
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
 		add_action( 'admin_menu', array( $seed_importer, 'register_menu' ), 20 );
 		add_action( 'admin_post_limbenet_import_seed', array( $seed_importer, 'handle_import' ) );
+		add_action( 'init', array( $polylang, 'register_strings' ), 30 );
+		add_filter( 'pll_get_post_types', array( $polylang, 'register_post_types' ), 10, 2 );
+		add_filter( 'pll_get_taxonomies', array( $polylang, 'register_taxonomies' ), 10, 2 );
+		add_filter( 'pll_copy_post_metas', array( $polylang, 'copy_post_metas' ), 10, 5 );
+		add_filter( 'pll_copy_taxonomies', array( $polylang, 'copy_taxonomies' ), 10, 5 );
 		add_action( 'init', array( $forms, 'handle_submission' ) );
 		add_action( 'init', array( $shortcodes, 'register' ) );
 		add_action( 'init', array( $this, 'maybe_flush_rewrite_rules' ), 20 );

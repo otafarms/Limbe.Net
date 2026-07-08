@@ -333,8 +333,8 @@ class LimbeNet_Core_Shortcodes {
 		$settings = LimbeNet_Core_Settings::get_settings();
 		$email    = sanitize_email( $settings['default_contact_email'] );
 		$phone    = trim( ! empty( $settings['contact_phone'] ) ? $settings['contact_phone'] : $settings['default_whatsapp'] );
-		$address  = trim( $settings['contact_address'] );
-		$hours    = trim( $settings['contact_business_hours'] );
+		$address  = trim( LimbeNet_Core_Polylang_Integration::translate_string( $settings['contact_address'] ) );
+		$hours    = trim( LimbeNet_Core_Polylang_Integration::translate_string( $settings['contact_business_hours'] ) );
 		$map_url  = ! empty( $settings['contact_map_url'] ) ? esc_url( $settings['contact_map_url'] ) : '';
 
 		$output  = '<section class="lnet-contact-page">';
@@ -586,7 +586,7 @@ class LimbeNet_Core_Shortcodes {
 		$output .= '</section>';
 
 		if ( filter_var( $atts['expanded'], FILTER_VALIDATE_BOOLEAN ) ) {
-			$output .= '<div class="lnet-disclosure">' . esc_html( LimbeNet_Core_Settings::get_settings()['affiliate_disclosure'] ) . '</div>';
+			$output .= '<div class="lnet-disclosure">' . esc_html( LimbeNet_Core_Polylang_Integration::translate_string( LimbeNet_Core_Settings::get_settings()['affiliate_disclosure'] ) ) . '</div>';
 		}
 
 		return $output;
@@ -600,7 +600,7 @@ class LimbeNet_Core_Shortcodes {
 	public function travel_info() {
 		$settings = LimbeNet_Core_Settings::get_settings();
 		$output   = '<div class="lnet-hub">';
-		$output  .= '<p class="lnet-disclosure">' . esc_html( $settings['safety_disclaimer'] ) . '</p>';
+		$output  .= '<p class="lnet-disclosure">' . esc_html( LimbeNet_Core_Polylang_Integration::translate_string( $settings['safety_disclaimer'] ) ) . '</p>';
 		$query    = $this->travel_info_query();
 
 		if ( $query->have_posts() ) {
